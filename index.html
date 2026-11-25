@@ -3,103 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة تتبع المراجعة</title>
-<meta name="description" content="Suivi quotidien des révisions pour le Bac 2 Sciences Physiques / لوحة تتبع المراجعة اليومية لثانية باكالوريا علوم فيزيائية">
+<title>لوحة تتبع المراجعة والجدول الأسبوعي</title>
 <meta name="theme-color" content="#2563eb">
-<meta property="og:title" content="Suivi de révision - 2 Bac SP / تتبع المراجعة">
-<meta property="og:description" content="Heures d'étude, concentration et énergie, avec graphiques de progression. / ساعات المراجعة والتركيز والطاقة مع رسوم التطور.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#f4f6f9; --card:#ffffff; --text:#1e293b; --muted:#64748b;
-    --border:#e2e8f0; --primary:#2563eb; --primary-soft:#dbeafe;
+    --bg:#f4f6f9; --bg-pattern:none; --card:#ffffff; --text:#1e293b; --muted:#64748b;
+    --border:#e2e8f0; --primary:#2563eb; --primary-soft:rgba(37,99,235,0.12);
     --good:#16a34a; --bad:#dc2626; --warn:#d97706; --grid:rgba(100,116,139,.18);
-    --shadow:0 2px 10px rgba(15,23,42,.06); --radius:16px;
+    --shadow:0 4px 14px rgba(15,23,42,.05); --radius:16px;
+    --font-scale:16px;
   }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8;
-      --border:#334155; --primary:#3b82f6; --primary-soft:#1e3a8a;
-      --good:#4ade80; --bad:#f87171; --warn:#fbbf24; --grid:rgba(148,163,184,.18);
-      --shadow:0 2px 10px rgba(0,0,0,.4);
-    }
+  [data-theme="dark"]{
+    --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8;
+    --border:#334155; --primary:#3b82f6; --primary-soft:rgba(59,130,246,0.18);
+    --good:#4ade80; --bad:#f87171; --warn:#fbbf24; --grid:rgba(148,163,184,.18);
+    --shadow:0 4px 14px rgba(0,0,0,.35);
   }
+  [data-theme="sepia"]{
+    --bg:#f4ecd8; --card:#fbf6ea; --text:#3b3126; --muted:#786855;
+    --border:#e0d3b8; --primary:#b45309; --primary-soft:rgba(180,83,9,0.12);
+    --good:#15803d; --bad:#b91c1c; --warn:#c2410c; --grid:rgba(120,104,85,.18);
+    --shadow:0 4px 14px rgba(59,49,38,.06);
+  }
+  [data-bg-style="dots"]{
+    background-image: radial-gradient(var(--border) 1.2px, transparent 1.2px);
+    background-size: 20px 20px;
+  }
+  [data-bg-style="soft"]{
+    background-image: linear-gradient(135deg, var(--bg) 0%, var(--primary-soft) 100%);
+    background-attachment: fixed;
+  }
+
   *{box-sizing:border-box;margin:0;padding:0}
   [hidden]{display:none!important}
-  html{-webkit-text-size-adjust:100%}
+  html{font-size:var(--font-scale);-webkit-text-size-adjust:100%}
   body{
-    font-family:'Cairo',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;
-    background:var(--bg); color:var(--text); line-height:1.6;
-    padding:12px; padding-bottom:90px;
+    font-family:system-ui,-apple-system,'Segoe UI',Tahoma,Arial,sans-serif;
+    background-color:var(--bg); color:var(--text); line-height:1.65;
+    padding:14px; padding-bottom:95px; transition:background-color .25s, color .25s;
   }
-  button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
+  button,input,textarea,select{font-family:inherit;font-size:inherit;color:inherit}
   :focus-visible{outline:3px solid var(--primary);outline-offset:2px}
-  .wrap{max-width:1100px;margin:0 auto}
+  .wrap{max-width:1120px;margin:0 auto}
 
-  header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
-  h1{font-size:1.3rem;font-weight:800}
-  .sub{color:var(--muted);font-size:.8rem}
-  .header-side{display:flex;gap:10px;align-items:stretch}
+  /* الترويسة */
+  header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
+  h1{font-size:1.35rem;font-weight:800;letter-spacing:-0.01em}
+  .sub{color:var(--muted);font-size:.82rem}
+  .header-side{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .countdown{
     background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-    padding:8px 16px;text-align:center;box-shadow:var(--shadow);min-width:110px;
+    padding:6px 14px;text-align:center;box-shadow:var(--shadow);min-width:105px;
   }
-  .countdown b{display:block;font-size:1.6rem;color:var(--primary);line-height:1.2}
-  .countdown span{font-size:.72rem;color:var(--muted);display:block;max-width:150px}
+  .countdown b{display:block;font-size:1.45rem;color:var(--primary);line-height:1.15}
+  .countdown span{font-size:.7rem;color:var(--muted);display:block}
 
-  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+  /* شريط التنقل بين الأقسام */
+  .nav-tabs{
+    display:flex;gap:8px;margin-bottom:16px;background:var(--card);
+    padding:6px;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);
+    overflow-x:auto;
+  }
+  .nav-tab{
+    flex:1;min-width:110px;padding:10px 14px;border:none;border-radius:12px;
+    background:transparent;font-weight:700;font-size:.88rem;cursor:pointer;
+    color:var(--muted);transition:all .2s;white-space:nowrap;
+  }
+  .nav-tab.active{background:var(--primary);color:#fff;box-shadow:0 2px 8px var(--primary-soft)}
+
+  /* البطاقات العلوية */
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
   @media(min-width:720px){.cards{grid-template-columns:repeat(4,1fr)}}
   .card{
     background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-    padding:12px;box-shadow:var(--shadow);
+    padding:14px;box-shadow:var(--shadow);
   }
-  .card .lbl{font-size:.75rem;color:var(--muted)}
+  .card .lbl{font-size:.76rem;color:var(--muted)}
   .card .val{font-size:1.4rem;font-weight:800;margin-top:2px}
   .trend-up{color:var(--good);font-size:.75rem;font-weight:700}
   .trend-down{color:var(--bad);font-size:.75rem;font-weight:700}
   .trend-same{color:var(--muted);font-size:.75rem}
 
+  /* الأقسام */
   .section{
     background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-    padding:14px;margin-bottom:14px;box-shadow:var(--shadow);
+    padding:16px;margin-bottom:16px;box-shadow:var(--shadow);
   }
-  .section h2{font-size:1rem;margin-bottom:10px}
+  .section-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+  .section h2{font-size:1.05rem;font-weight:800}
+
+  /* شريط التوازن والأهداف الأسبوعية */
+  .goals-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:12px}
+  .goal-item{
+    border:1px solid var(--border);border-radius:12px;padding:10px;background:var(--bg);
+  }
+  .goal-top{display:flex;justify-content:space-between;font-size:.82rem;font-weight:700;margin-bottom:6px}
+  .progress-bar{height:8px;background:var(--border);border-radius:999px;overflow:hidden}
+  .progress-fill{height:100%;background:var(--primary);border-radius:999px;transition:width .3s}
+  .progress-fill.done{background:var(--good)}
+  .alert-box{
+    background:var(--primary-soft);border-inline-start:4px solid var(--primary);
+    padding:10px 14px;border-radius:10px;font-size:.84rem;margin-bottom:12px;
+  }
+
+  /* الجدول الأسبوعي */
+  .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px}
+  .sched-table{width:100%;border-collapse:collapse;min-width:780px;font-size:.8rem}
+  .sched-table th,.sched-table td{
+    border:1px solid var(--border);padding:8px 6px;text-align:center;vertical-align:middle;
+  }
+  .sched-table th{background:var(--bg);font-weight:800;color:var(--primary)}
+  .sched-table th.today-col{background:var(--primary);color:#fff}
+  .slot-time{font-weight:700;background:var(--bg);white-space:nowrap;font-size:.75rem;color:var(--muted)}
+  .cell-subj{font-weight:800;display:block;font-size:.84rem}
+  .cell-task{
+    display:inline-block;margin-top:3px;padding:2px 7px;border-radius:6px;
+    font-size:.7rem;background:var(--primary-soft);color:var(--primary);font-weight:600;
+  }
+  .cell-free{color:var(--muted);font-style:italic;font-size:.78rem}
+  .cell-nat{background:rgba(22,163,74,0.14);color:var(--good)}
+  .cell-exo{background:rgba(217,119,6,0.14);color:var(--warn)}
+
+  /* الأزرار والمدخلات */
   .filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
   .chip{
     border:1px solid var(--border);background:transparent;
-    padding:6px 14px;border-radius:999px;font-size:.8rem;cursor:pointer;
+    padding:6px 14px;border-radius:999px;font-size:.8rem;cursor:pointer;font-weight:600;
   }
   .chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
 
-  .date-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
-  .date-row input[type=date], .field input[type=date]{
-    padding:9px 10px;border-radius:12px;border:1px solid var(--border);
+  .date-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+  input[type=date], select, input[type=text]{
+    padding:8px 11px;border-radius:12px;border:1px solid var(--border);
     background:var(--bg);color:var(--text);
   }
   .badge{
     background:var(--primary-soft);color:var(--primary);border-radius:999px;
-    padding:2px 12px;font-size:.78rem;font-weight:700;
+    padding:3px 12px;font-size:.78rem;font-weight:700;
   }
-  @media(prefers-color-scheme:dark){.badge{color:#bfdbfe}}
 
   .subject-row{
-    display:flex;align-items:center;gap:8px;padding:8px;border-radius:12px;
+    display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;
     border:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap;
   }
-  .subject-row .name{flex:1 1 120px;font-weight:600;font-size:.9rem}
+  .subject-row .name{flex:1 1 130px;font-weight:700;font-size:.9rem}
   .subject-row input[type=number]{
-    width:72px;padding:8px;border-radius:10px;border:1px solid var(--border);
-    background:var(--bg);text-align:center;
+    width:72px;padding:7px;border-radius:10px;border:1px solid var(--border);
+    background:var(--bg);text-align:center;font-weight:700;
   }
   .unit{color:var(--muted);font-size:.75rem}
   .quick{
     background:var(--primary-soft);color:var(--primary);border:none;border-radius:10px;
-    padding:8px 10px;font-size:.8rem;font-weight:700;cursor:pointer;white-space:nowrap;
+    padding:7px 10px;font-size:.8rem;font-weight:700;cursor:pointer;
   }
-  @media(prefers-color-scheme:dark){.quick{color:#bfdbfe}}
   .quick:active{transform:scale(.96)}
   .icon-btn{
     background:transparent;border:1px solid var(--border);border-radius:8px;
@@ -107,62 +164,85 @@
   }
   .icon-btn:hover{color:var(--primary);border-color:var(--primary)}
   .icon-btn.danger:hover{color:var(--bad);border-color:var(--bad)}
-  .total-line{display:flex;justify-content:space-between;align-items:center;margin:4px 0 14px;font-weight:700}
+  .total-line{display:flex;justify-content:space-between;align-items:center;margin:8px 0 14px;font-weight:800}
 
   .scale{display:flex;gap:6px;margin:6px 0 2px}
   .scale button{
-    flex:1;min-width:44px;padding:12px 0;border-radius:12px;border:1px solid var(--border);
-    background:var(--bg);font-weight:700;font-size:1rem;cursor:pointer;
+    flex:1;min-width:42px;padding:10px 0;border-radius:12px;border:1px solid var(--border);
+    background:var(--bg);font-weight:800;font-size:1rem;cursor:pointer;
   }
   .scale button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
   .field{margin-bottom:14px}
-  .field label{display:block;font-size:.85rem;font-weight:600;margin-bottom:4px}
+  .field label{display:block;font-size:.85rem;font-weight:700;margin-bottom:5px}
   textarea{
-    width:100%;min-height:60px;padding:10px;border-radius:12px;border:1px solid var(--border);
+    width:100%;min-height:64px;padding:10px;border-radius:12px;border:1px solid var(--border);
     background:var(--bg);resize:vertical;
   }
   .primary-btn{
-    width:100%;padding:14px;border-radius:14px;border:none;background:var(--primary);color:#fff;
-    font-size:1rem;font-weight:800;cursor:pointer;
+    width:100%;padding:13px;border-radius:14px;border:none;background:var(--primary);color:#fff;
+    font-size:1rem;font-weight:800;cursor:pointer;box-shadow:0 4px 12px var(--primary-soft);
   }
-  .primary-btn:active{opacity:.85}
+  .primary-btn:active{opacity:.88}
   .ghost-btn{
-    padding:9px 14px;border-radius:12px;border:1px solid var(--border);background:transparent;
-    font-size:.85rem;cursor:pointer;
+    padding:8px 13px;border-radius:12px;border:1px solid var(--border);background:var(--card);
+    font-size:.82rem;cursor:pointer;font-weight:600;
   }
-  .ghost-btn:hover{border-color:var(--primary)}
+  .ghost-btn:hover{border-color:var(--primary);color:var(--primary)}
   .ghost-btn.danger{color:var(--bad)}
   .ghost-btn.danger:hover{border-color:var(--bad)}
 
+  /* الرسوم البيانية الخام */
   .charts{display:grid;grid-template-columns:1fr;gap:14px}
   @media(min-width:900px){.charts{grid-template-columns:1fr 1fr}}
   .charts .section{margin-bottom:0}
-  .chart-box{position:relative;height:240px}
+  .chart-box{position:relative;height:245px;width:100%}
+  .chart-box canvas{width:100%;height:100%;display:block;cursor:crosshair}
+  .chart-legend{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px;font-size:.76rem}
+  .legend-item{display:flex;align-items:center;gap:5px}
+  .legend-dot{width:10px;height:10px;border-radius:3px;display:inline-block}
+  .chart-tip{
+    position:fixed;pointer-events:none;background:var(--text);color:var(--bg);
+    padding:6px 10px;border-radius:8px;font-size:.76rem;font-weight:700;
+    z-index:120;box-shadow:0 4px 12px rgba(0,0,0,.2);white-space:pre-line;
+  }
   .empty{
-    text-align:center;color:var(--muted);font-size:.85rem;padding:24px 8px;
+    text-align:center;color:var(--muted);font-size:.85rem;padding:28px 8px;
     border:1px dashed var(--border);border-radius:12px;
   }
 
+  /* السجل */
   .history-item{
     display:flex;justify-content:space-between;align-items:center;gap:8px;
     padding:10px;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;font-size:.85rem;
   }
   .history-item .info{flex:1;min-width:0}
-  .history-item .date{font-weight:700}
+  .history-item .date{font-weight:800}
   .history-item .meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.78rem}
   .history-item .note{color:var(--muted);font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .history-item .actions{display:flex;gap:6px}
 
+  /* الإعدادات وتخصيص المظهر */
+  .settings-grid{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:760px){.settings-grid{grid-template-columns:1fr 1fr}}
+  .color-swatches{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .swatch{
+    width:32px;height:32px;border-radius:50%;border:3px solid transparent;cursor:pointer;
+  }
+  .swatch.active{border-color:var(--text);transform:scale(1.1)}
+  .plan-editor-row{
+    display:grid;grid-template-columns:110px 1fr 1fr;gap:6px;align-items:center;
+    padding:6px 0;border-bottom:1px solid var(--border);font-size:.82rem;
+  }
+
   .row{display:flex;gap:8px;flex-wrap:wrap}
   .privacy{margin-top:12px;color:var(--muted);font-size:.78rem}
-  footer{text-align:center;color:var(--muted);font-size:.72rem;margin-top:20px}
+  footer{text-align:center;color:var(--muted);font-size:.74rem;margin-top:20px}
   .toast{
     position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);
     background:var(--text);color:var(--bg);padding:10px 20px;border-radius:12px;
-    font-size:.85rem;font-weight:600;transition:transform .3s;z-index:99;max-width:90vw;text-align:center;
+    font-size:.85rem;font-weight:700;transition:transform .3s;z-index:99;max-width:90vw;text-align:center;
   }
   .toast.show{transform:translateX(-50%) translateY(0)}
-  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -174,6 +254,7 @@
       <div class="sub" data-i18n="tagline"></div>
     </div>
     <div class="header-side">
+      <button class="ghost-btn" id="quickThemeBtn" type="button" title="تغيير المظهر">🌓</button>
       <button class="ghost-btn" id="langBtn" type="button"></button>
       <div class="countdown">
         <b id="countdownDays">—</b>
@@ -182,6 +263,15 @@
     </div>
   </header>
 
+  <!-- أشرطة التنقل -->
+  <nav class="nav-tabs" role="tablist">
+    <button class="nav-tab active" data-tab="tab-track" data-i18n="tabTrack"></button>
+    <button class="nav-tab" data-tab="tab-plan" data-i18n="tabPlan"></button>
+    <button class="nav-tab" data-tab="tab-stats" data-i18n="tabStats"></button>
+    <button class="nav-tab" data-tab="tab-settings" data-i18n="tabSettings"></button>
+  </nav>
+
+  <!-- البطاقات الملخصة -->
   <div class="cards">
     <div class="card"><div class="lbl" data-i18n="lblToday"></div><div class="val" id="statToday">0</div></div>
     <div class="card"><div class="lbl" data-i18n="lblWeek"></div><div class="val" id="statWeek">0</div></div>
@@ -193,194 +283,386 @@
     </div>
   </div>
 
-  <!-- نموذج الإدخال / Saisie -->
-  <div class="section" id="formSection">
-    <h2 data-i18n="logTitle"></h2>
-    <div class="date-row">
-      <label for="dateInput" class="sub" data-i18n="dateLbl"></label>
-      <input type="date" id="dateInput">
-      <button class="ghost-btn" id="todayBtn" type="button" data-i18n="backToday" hidden></button>
-      <span class="badge" id="editBadge" hidden></span>
-    </div>
-    <div id="subjectInputs"></div>
-    <div class="total-line">
-      <button class="ghost-btn" id="addSubjectBtn" type="button" data-i18n="addSubject"></button>
-      <span><span data-i18n="dayTotal"></span> <span id="dayTotal">0</span></span>
-    </div>
-
-    <div class="field">
-      <label data-i18n="focusLbl"></label>
-      <div class="scale" id="focusScale" role="group"></div>
-    </div>
-    <div class="field">
-      <label data-i18n="energyLbl"></label>
-      <div class="scale" id="energyScale" role="group"></div>
-      <div class="sub" data-i18n="scaleHint" style="margin-top:4px"></div>
-    </div>
-    <div class="field">
-      <label for="noteInput" data-i18n="noteLbl"></label>
-      <textarea id="noteInput" maxlength="500" data-i18n-ph="notePh"></textarea>
-    </div>
-    <button class="primary-btn" id="saveBtn" type="button" data-i18n="saveDay"></button>
-  </div>
-
-  <div class="filters" id="periodFilter">
-    <button class="chip active" type="button" data-days="7" data-i18n="p7"></button>
-    <button class="chip" type="button" data-days="30" data-i18n="p30"></button>
-    <button class="chip" type="button" data-days="0" data-i18n="pAll"></button>
-  </div>
-
-  <div class="charts">
+  <!-- ================= التبويب 1: التسجيل اليومي ================= -->
+  <div id="tab-track" class="tab-panel">
+    <!-- تنبيه التوازن الأسبوعي -->
     <div class="section">
-      <h2 data-i18n="ch1"></h2>
-      <div class="chart-box"><canvas id="lineChart"></canvas></div>
-      <div class="empty" id="emptyLine" hidden></div>
-    </div>
-
-    <div class="section">
-      <h2 data-i18n="ch2"></h2>
-      <div class="filters" id="distFilter">
-        <button class="chip active" type="button" data-dist="week" data-i18n="distWeek"></button>
-        <button class="chip" type="button" data-dist="month" data-i18n="distMonth"></button>
+      <div class="section-head">
+        <h2 data-i18n="balanceTitle"></h2>
+        <span class="sub" data-i18n="balanceSub"></span>
       </div>
-      <div class="chart-box"><canvas id="barChart"></canvas></div>
-      <div class="empty" id="emptyBar" hidden></div>
+      <div id="balanceAlert" class="alert-box" hidden></div>
+      <div class="goals-grid" id="weeklyGoalsGrid"></div>
+    </div>
+
+    <div class="section" id="formSection">
+      <div class="section-head">
+        <h2 data-i18n="logTitle"></h2>
+        <button class="ghost-btn" id="autoFillPlanBtn" type="button" data-i18n="autoFillBtn"></button>
+      </div>
+      <div class="date-row">
+        <label for="dateInput" class="sub" data-i18n="dateLbl"></label>
+        <input type="date" id="dateInput">
+        <button class="ghost-btn" id="todayBtn" type="button" data-i18n="backToday" hidden></button>
+        <span class="badge" id="editBadge" hidden></span>
+      </div>
+      <div id="subjectInputs"></div>
+      <div class="total-line">
+        <button class="ghost-btn" id="addSubjectBtn" type="button" data-i18n="addSubject"></button>
+        <span><span data-i18n="dayTotal"></span> <span id="dayTotal">0</span></span>
+      </div>
+
+      <div class="field">
+        <label data-i18n="focusLbl"></label>
+        <div class="scale" id="focusScale" role="group"></div>
+      </div>
+      <div class="field">
+        <label data-i18n="energyLbl"></label>
+        <div class="scale" id="energyScale" role="group"></div>
+        <div class="sub" data-i18n="scaleHint" style="margin-top:4px"></div>
+      </div>
+      <div class="field">
+        <label for="noteInput" data-i18n="noteLbl"></label>
+        <textarea id="noteInput" maxlength="500" data-i18n-ph="notePh"></textarea>
+      </div>
+      <button class="primary-btn" id="saveBtn" type="button" data-i18n="saveDay"></button>
     </div>
 
     <div class="section">
-      <h2 data-i18n="ch3"></h2>
-      <div class="chart-box"><canvas id="dualChart"></canvas></div>
-      <div class="empty" id="emptyDual" hidden></div>
+      <h2 data-i18n="histTitle" style="margin-bottom:10px"></h2>
+      <div id="historyList"></div>
     </div>
+  </div>
 
+  <!-- ================= التبويب 2: البرنامج الأسبوعي ================= -->
+  <div id="tab-plan" class="tab-panel" hidden>
     <div class="section">
-      <h2 data-i18n="ch4"></h2>
-      <div class="chart-box"><canvas id="scatterChart"></canvas></div>
-      <div class="empty" id="emptyScatter" hidden></div>
+      <div class="section-head">
+        <div>
+          <h2 data-i18n="planTitle"></h2>
+          <div class="sub" data-i18n="planMethodNote"></div>
+        </div>
+        <button class="ghost-btn" id="goEditPlanBtn" type="button" data-i18n="editPlanShortcut"></button>
+      </div>
+      <div class="table-wrap" id="weeklyScheduleWrap"></div>
     </div>
   </div>
 
-  <div class="section" style="margin-top:14px">
-    <h2 data-i18n="histTitle"></h2>
-    <div id="historyList"></div>
+  <!-- ================= التبويب 3: الرسوم البيانية ================= -->
+  <div id="tab-stats" class="tab-panel" hidden>
+    <div class="filters" id="periodFilter">
+      <button class="chip active" type="button" data-days="7" data-i18n="p7"></button>
+      <button class="chip" type="button" data-days="30" data-i18n="p30"></button>
+      <button class="chip" type="button" data-days="0" data-i18n="pAll"></button>
+    </div>
+
+    <div class="charts">
+      <div class="section">
+        <h2 data-i18n="ch1" style="margin-bottom:8px"></h2>
+        <div class="chart-box"><canvas id="lineChart"></canvas></div>
+        <div class="empty" id="emptyLine" hidden></div>
+      </div>
+
+      <div class="section">
+        <h2 data-i18n="ch2" style="margin-bottom:8px"></h2>
+        <div class="filters" id="distFilter">
+          <button class="chip active" type="button" data-dist="week" data-i18n="distWeek"></button>
+          <button class="chip" type="button" data-dist="month" data-i18n="distMonth"></button>
+        </div>
+        <div class="chart-box"><canvas id="barChart"></canvas></div>
+        <div class="chart-legend" id="barLegend"></div>
+        <div class="empty" id="emptyBar" hidden></div>
+      </div>
+
+      <div class="section">
+        <h2 data-i18n="ch3" style="margin-bottom:8px"></h2>
+        <div class="chart-box"><canvas id="dualChart"></canvas></div>
+        <div class="chart-legend" id="dualLegend"></div>
+        <div class="empty" id="emptyDual" hidden></div>
+      </div>
+
+      <div class="section">
+        <h2 data-i18n="ch4" style="margin-bottom:8px"></h2>
+        <div class="chart-box"><canvas id="scatterChart"></canvas></div>
+        <div class="empty" id="emptyScatter" hidden></div>
+      </div>
+    </div>
   </div>
 
-  <div class="section">
-    <h2 data-i18n="settings"></h2>
-    <div class="field">
-      <label for="examDateInput" data-i18n="examDate"></label>
-      <input type="date" id="examDateInput">
+  <!-- ================= التبويب 4: الإعدادات وتخصيص الخطة والمظهر ================= -->
+  <div id="tab-settings" class="tab-panel" hidden>
+    <div class="settings-grid">
+      <!-- تخصيص المظهر والراحة البصرية -->
+      <div class="section">
+        <h2 data-i18n="appearanceTitle" style="margin-bottom:12px"></h2>
+        <div class="field">
+          <label data-i18n="themeLbl"></label>
+          <div class="filters" id="themeSelector">
+            <button class="chip" type="button" data-val="light" data-i18n="themeLight"></button>
+            <button class="chip" type="button" data-val="sepia" data-i18n="themeSepia"></button>
+            <button class="chip" type="button" data-val="dark" data-i18n="themeDark"></button>
+          </div>
+        </div>
+        <div class="field">
+          <label data-i18n="bgStyleLbl"></label>
+          <div class="filters" id="bgStyleSelector">
+            <button class="chip" type="button" data-val="solid" data-i18n="bgSolid"></button>
+            <button class="chip" type="button" data-val="dots" data-i18n="bgDots"></button>
+            <button class="chip" type="button" data-val="soft" data-i18n="bgSoft"></button>
+          </div>
+        </div>
+        <div class="field">
+          <label data-i18n="accentLbl"></label>
+          <div class="color-swatches" id="accentSwatches"></div>
+        </div>
+        <div class="field">
+          <label data-i18n="fontSizeLbl"></label>
+          <div class="filters" id="fontSizeSelector">
+            <button class="chip" type="button" data-val="15" data-i18n="sizeSmall"></button>
+            <button class="chip" type="button" data-val="16" data-i18n="sizeMed"></button>
+            <button class="chip" type="button" data-val="18" data-i18n="sizeLarge"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- إعدادات الامتحان والبيانات -->
+      <div class="section">
+        <h2 data-i18n="settings" style="margin-bottom:12px"></h2>
+        <div class="field">
+          <label for="examDateInput" data-i18n="examDate"></label>
+          <input type="date" id="examDateInput">
+        </div>
+        <div class="field">
+          <label data-i18n="weeklyGoalsEditLbl"></label>
+          <div id="goalsEditor"></div>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <button class="ghost-btn" id="exportBtn" type="button" data-i18n="exportBtn"></button>
+          <button class="ghost-btn" id="importBtn" type="button" data-i18n="importBtn"></button>
+          <button class="ghost-btn danger" id="resetBtn" type="button" data-i18n="resetBtn"></button>
+          <input type="file" id="importFile" accept="application/json,.json" hidden>
+        </div>
+        <p class="privacy" data-i18n="privacy"></p>
+      </div>
     </div>
-    <div class="row">
-      <button class="ghost-btn" id="exportBtn" type="button" data-i18n="exportBtn"></button>
-      <button class="ghost-btn" id="importBtn" type="button" data-i18n="importBtn"></button>
-      <button class="ghost-btn danger" id="resetBtn" type="button" data-i18n="resetBtn"></button>
-      <input type="file" id="importFile" accept="application/json,.json" hidden>
+
+    <!-- محرر الخطة الأسبوعية -->
+    <div class="section">
+      <div class="section-head">
+        <div>
+          <h2 data-i18n="planEditorTitle"></h2>
+          <div class="sub" data-i18n="planEditorSub"></div>
+        </div>
+        <div class="row">
+          <select id="editDaySelect"></select>
+          <button class="ghost-btn" id="resetPlanBtn" type="button" data-i18n="resetPlanBtn"></button>
+        </div>
+      </div>
+      <div id="planEditorContainer"></div>
     </div>
-    <p class="privacy" data-i18n="privacy"></p>
   </div>
 
   <footer data-i18n="footer"></footer>
 </div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="chart-tip" id="chartTip" hidden></div>
+
 <script>
 (function(){
 'use strict';
 
-/* ================= الترجمة / Traductions ================= */
+/* ================= الترجمة ================= */
 var I18N = {
   ar:{
-    pageTitle:'لوحة تتبع المراجعة', appTitle:'لوحة تتبع المراجعة', tagline:'سجّل يومك في أقل من دقيقة',
+    pageTitle:'لوحة تتبع المراجعة والبرنامج الأسبوعي', appTitle:'لوحة تتبع المراجعة', tagline:'تطبيق خام يعمل بدون إنترنت • تركيز على التمارين والوطنيات',
     countdownLbl:'يوم قبل الامتحان', countdownUnset:'حدّد تاريخ الامتحان في الإعدادات',
+    tabTrack:'التسجيل اليومي', tabPlan:'البرنامج الأسبوعي', tabStats:'الإحصائيات والرسوم', tabSettings:'الإعدادات والمظهر',
     lblToday:'مراجعة اليوم', lblWeek:'آخر 7 أيام', lblFocus:'متوسط التركيز (7 أيام)', lblCompare:'مقارنة بالأسبوع الماضي',
     trendUp:'ارتفاع بـ {x}', trendDown:'انخفاض بـ {x}', trendSame:'بدون تغيير',
-    logTitle:'تسجيل اليوم', dateLbl:'التاريخ', backToday:'العودة إلى اليوم', editingDay:'تعديل يوم {d}',
+    balanceTitle:'توازن المواد الأسبوعي (منع إهمال أي مادة)',
+    balanceSub:'الأهداف المعتمدة: 12س رياضيات • 10س فيزياء • 10س علوم • 6س إنجليزية • 4س فلسفة',
+    neglectAlert:'تنبيه التوازن: مادة "{s}" متأخرة هذا الأسبوع ({cur} من أصل {goal}). يُنصح بالعمل على تمارينها اليوم!',
+    allBalanced:'ممتاز! توزيعك متوازن بين جميع المواد هذا الأسبوع.',
+    logTitle:'تسجيل حصص اليوم', autoFillBtn:'تعبئة حصص اليوم من الجدول', autoFilled:'تمت تعبئة حصص اليوم المبرمجة!',
+    noPlanToday:'لا توجد حصص دراسية مبرمجة في هذا اليوم (يوم راحة).',
+    dateLbl:'التاريخ', backToday:'العودة إلى اليوم', editingDay:'تعديل يوم {d}',
     addSubject:'إضافة مادة', dayTotal:'مجموع اليوم:', minUnit:'دقيقة', hU:'س', minShort:'د',
     rename:'تغيير الاسم', removeSubject:'حذف المادة',
-    focusLbl:'مستوى التركيز', energyLbl:'مستوى الطاقة', scaleHint:'من 1 (ضعيف جداً) إلى 5 (ممتاز). اضغط مرة أخرى على الرقم لإلغائه.',
-    noteLbl:'ملاحظة قصيرة (اختياري)', notePh:'ما الذي ساعدك أو أعاقك اليوم؟',
-    saveDay:'حفظ اليوم', saved:'تم حفظ اليوم',
+    focusLbl:'مستوى التركيز', energyLbl:'مستوى الطاقة', scaleHint:'من 1 (ضعيف) إلى 5 (ممتاز). اضغط مرة أخرى للإلغاء.',
+    noteLbl:'ملاحظة اليوم (اختياري)', notePh:'كم تمريناً أو امتحاناً وطنياً أنجزت اليوم؟',
+    saveDay:'حفظ اليوم', saved:'تم حفظ اليوم بنجاح',
+    planTitle:'البرنامج الأسبوعي المعتمد (التمارين والامتحانات الوطنية)',
+    planMethodNote:'منهجية العمل: عدم إضاعة الوقت في قراءة الدرس فقط، والتركيز على السلاسل (4 تمارين على الأقل) والامتحانات الوطنية.',
+    editPlanShortcut:'تعديل البرنامج من الإعدادات',
     p7:'7 أيام', p30:'30 يوماً', pAll:'كل المدة',
     ch1:'ساعات المراجعة يومياً', ch2:'توزيع الساعات على المواد', distWeek:'آخر 7 أيام', distMonth:'آخر 4 أسابيع',
     ch3:'التركيز والطاقة', ch4:'ساعات المراجعة مقابل التركيز',
     hoursAxis:'الساعات', focus:'التركيز', energy:'الطاقة', focusShort:'تركيز', energyShort:'طاقة',
     emptyChart:'لا توجد بيانات في هذه الفترة. سجّل يومك لتظهر الرسوم.',
     emptyScatter:'سجّل التركيز في يومين على الأقل لتظهر العلاقة.',
-    chartsOff:'تعذّر تحميل مكتبة الرسوم. تحقق من الاتصال بالإنترنت ثم أعد تحميل الصفحة.',
-    histTitle:'سجل الأيام', noHistory:'لا توجد أيام مسجلة بعد.', edit:'تعديل', del:'حذف',
-    settings:'الإعدادات والبيانات', examDate:'تاريخ الامتحان',
-    exportBtn:'تصدير نسخة احتياطية', importBtn:'استيراد نسخة احتياطية', resetBtn:'مسح كل البيانات',
-    exported:'تم التصدير', imported:'تم الاستيراد', importFail:'ملف غير صالح. اختر نسخة احتياطية صدّرتها من هذا الموقع.',
-    importConfirm:'سيستبدل الاستيراد كل بياناتك الحالية. هل تريد المتابعة؟',
-    resetConfirm:'سيتم حذف كل بياناتك نهائياً من هذا الجهاز. هل أنت متأكد؟', resetDone:'تم مسح البيانات',
+    histTitle:'سجل الأيام الأخيرة', noHistory:'لا توجد أيام مسجلة بعد.', edit:'تعديل', del:'حذف',
+    appearanceTitle:'تخصيص المظهر والراحة البصرية',
+    themeLbl:'وضع الإضاءة', themeLight:'نهاري', themeSepia:'مريح للعين (ورقي دافئ)', themeDark:'ليلي',
+    bgStyleLbl:'نمط الخلفية', bgSolid:'سادة هادئة', bgDots:'نقاط خفيفة', bgSoft:'تدرج ناعم',
+    accentLbl:'اللون الأساسي للواجهة', fontSizeLbl:'حجم الخط', sizeSmall:'صغير', sizeMed:'متوسط', sizeLarge:'كبير',
+    settings:'الامتحان والنسخ الاحتياطي', examDate:'تاريخ الامتحان الوطني',
+    weeklyGoalsEditLbl:'الهدف الأسبوعي لكل مادة (بالساعات)',
+    planEditorTitle:'تعديل الخطة الأسبوعية', planEditorSub:'اختر اليوم وعدّل المادة أو نوع التمارين لكل حصة زمنية',
+    resetPlanBtn:'استعادة الجدول الافتراضي', planResetDone:'تمت استعادة الجدول الافتراضي',
+    exportBtn:'تصدير نسخة احتياطية', importBtn:'استيراد نسخة', resetBtn:'مسح كل البيانات',
+    exported:'تم تصدير النسخة الاحتياطية', imported:'تم الاستيراد بنجاح', importFail:'ملف غير صالح.',
+    importConfirm:'سيستبدل الاستيراد كل بياناتك الحالية. متابعة؟',
+    resetConfirm:'سيتم حذف كل بياناتك نهائياً. هل أنت متأكد؟', resetDone:'تم مسح البيانات',
     newSubjectPrompt:'اسم المادة الجديدة:', renamePrompt:'الاسم الجديد للمادة:',
     subjectExists:'هذه المادة موجودة بالفعل', subjectLimit:'الحد الأقصى {n} مادة', keepOne:'يجب أن تبقى مادة واحدة على الأقل',
-    removeSubjectConfirm:'حذف مادة "{s}"؟ ستُحذف ساعاتها من كل الأيام.', delDayConfirm:'حذف يوم {d}؟',
-    storageFail:'تعذّر الحفظ في المتصفح. صدّر نسخة احتياطية حتى لا تفقد بياناتك.',
-    privacy:'بياناتك محفوظة في متصفحك على هذا الجهاز فقط ولا تُرسل إلى أي خادم. صدّر نسخة احتياطية من حين لآخر، لأن مسح بيانات المتصفح يحذفها.',
-    footer:'مجاني ومفتوح المصدر',
+    removeSubjectConfirm:'حذف مادة "{s}"؟', delDayConfirm:'حذف يوم {d}؟',
+    privacy:'تطبيق خام 100% يعمل محلياً بدون أي خوادم أو مكتبات خارجية.',
+    footer:'لوحة تتبع المراجعة • تعمل بدون إنترنت',
     subj_math:'الرياضيات', subj_pc:'الفيزياء والكيمياء', subj_svt:'علوم الحياة والأرض',
-    subj_philo:'الفلسفة', subj_en:'الإنجليزية'
+    subj_philo:'الفلسفة', subj_en:'الإنجليزية', subj_free:'وقت حر / راحة',
+    task_cours_exo:'ملخص سريع + تمارين', task_serie:'سلسلة تمارين (4 على الأقل)',
+    task_nat:'امتحان وطني (National)', task_resume_exo:'ملخص + تمارين', task_free:'استراحة واسترجاع الطاقة'
   },
   fr:{
-    pageTitle:'Suivi de révision', appTitle:'Suivi de révision', tagline:'Note ta journée en moins d\u2019une minute',
+    pageTitle:'Suivi de révision & Planning', appTitle:'Suivi de révision', tagline:'100% Hors-ligne • Priorité aux exercices et examens nationaux',
     countdownLbl:'jours avant l\u2019examen', countdownUnset:'Définis la date de l\u2019examen dans les réglages',
-    lblToday:'Révision aujourd\u2019hui', lblWeek:'7 derniers jours', lblFocus:'Concentration moyenne (7 j)', lblCompare:'Comparé à la semaine passée',
+    tabTrack:'Saisie du jour', tabPlan:'Planning Hebdo', tabStats:'Graphiques', tabSettings:'Réglages & Thème',
+    lblToday:'Aujourd\u2019hui', lblWeek:'7 derniers jours', lblFocus:'Concentration (7 j)', lblCompare:'Vs semaine passée',
     trendUp:'+{x}', trendDown:'\u2212{x}', trendSame:'Stable',
-    logTitle:'Saisie de la journée', dateLbl:'Date', backToday:'Revenir à aujourd\u2019hui', editingDay:'Modification du {d}',
+    balanceTitle:'Équilibre hebdomadaire des matières',
+    balanceSub:'Objectifs : 12h Maths • 10h Physique • 10h SVT • 6h Anglais • 4h Philo',
+    neglectAlert:'Alerte équilibre : « {s} » est en retard cette semaine ({cur} / {goal}). Fais une série d\u2019exercices aujourd\u2019hui !',
+    allBalanced:'Excellent ! Tes révisions sont bien équilibrées entre toutes les matières.',
+    logTitle:'Saisie de la journée', autoFillBtn:'Remplir selon le planning du jour', autoFilled:'Séances du planning ajoutées !',
+    noPlanToday:'Aucune séance prévue aujourd\u2019hui (Free Time).',
+    dateLbl:'Date', backToday:'Aujourd\u2019hui', editingDay:'Modification du {d}',
     addSubject:'Ajouter une matière', dayTotal:'Total du jour :', minUnit:'min', hU:'h', minShort:' min',
-    rename:'Renommer', removeSubject:'Supprimer la matière',
-    focusLbl:'Niveau de concentration', energyLbl:'Niveau d\u2019énergie', scaleHint:'De 1 (très faible) à 5 (excellent). Touche à nouveau le chiffre pour l\u2019effacer.',
-    noteLbl:'Note courte (facultatif)', notePh:'Qu\u2019est-ce qui t\u2019a aidé ou gêné aujourd\u2019hui ?',
+    rename:'Renommer', removeSubject:'Supprimer',
+    focusLbl:'Concentration', energyLbl:'Énergie', scaleHint:'De 1 (faible) à 5 (excellent). Cliquer à nouveau pour effacer.',
+    noteLbl:'Note courte (facultatif)', notePh:'Combien d\u2019exercices ou d\u2019examens nationaux résolus ?',
     saveDay:'Enregistrer la journée', saved:'Journée enregistrée',
+    planTitle:'Planning Hebdomadaire (Exercices & Nationaux)',
+    planMethodNote:'Méthode : Ne pas perdre de temps sur le cours pur. Priorité aux séries (min. 4 exercices) et examens nationaux.',
+    editPlanShortcut:'Modifier le planning',
     p7:'7 jours', p30:'30 jours', pAll:'Tout',
-    ch1:'Heures de révision par jour', ch2:'Répartition par matière', distWeek:'7 derniers jours', distMonth:'4 dernières semaines',
-    ch3:'Concentration et énergie', ch4:'Heures de révision et concentration',
+    ch1:'Heures par jour', ch2:'Répartition par matière', distWeek:'7 derniers jours', distMonth:'4 dernières semaines',
+    ch3:'Concentration et énergie', ch4:'Heures vs Concentration',
     hoursAxis:'Heures', focus:'Concentration', energy:'Énergie', focusShort:'concentration', energyShort:'énergie',
-    emptyChart:'Aucune donnée sur cette période. Enregistre ta journée pour voir les graphiques.',
-    emptyScatter:'Note ta concentration sur au moins deux jours pour voir la relation.',
-    chartsOff:'La bibliothèque de graphiques n\u2019a pas pu se charger. Vérifie ta connexion puis recharge la page.',
-    histTitle:'Historique', noHistory:'Aucune journée enregistrée pour l\u2019instant.', edit:'Modifier', del:'Supprimer',
-    settings:'Réglages et données', examDate:'Date de l\u2019examen',
-    exportBtn:'Exporter une sauvegarde', importBtn:'Importer une sauvegarde', resetBtn:'Effacer toutes les données',
-    exported:'Sauvegarde exportée', imported:'Sauvegarde importée', importFail:'Fichier invalide. Choisis une sauvegarde exportée depuis ce site.',
-    importConfirm:'L\u2019importation remplacera toutes tes données actuelles. Continuer ?',
-    resetConfirm:'Toutes tes données seront supprimées définitivement de cet appareil. Es-tu sûr(e) ?', resetDone:'Données effacées',
-    newSubjectPrompt:'Nom de la nouvelle matière :', renamePrompt:'Nouveau nom de la matière :',
-    subjectExists:'Cette matière existe déjà', subjectLimit:'Maximum {n} matières', keepOne:'Garde au moins une matière',
-    removeSubjectConfirm:'Supprimer la matière « {s} » ? Ses heures seront retirées de tous les jours.', delDayConfirm:'Supprimer le {d} ?',
-    storageFail:'Enregistrement impossible dans le navigateur. Exporte une sauvegarde pour ne rien perdre.',
-    privacy:'Tes données restent dans ton navigateur, sur cet appareil uniquement, et ne sont envoyées à aucun serveur. Exporte une sauvegarde de temps en temps : effacer les données du navigateur les supprime.',
-    footer:'Gratuit et open source',
+    emptyChart:'Aucune donnée sur cette période.',
+    emptyScatter:'Note ta concentration sur au moins 2 jours.',
+    histTitle:'Historique récent', noHistory:'Aucune journée enregistrée.', edit:'Modifier', del:'Supprimer',
+    appearanceTitle:'Apparence & Confort visuel',
+    themeLbl:'Thème', themeLight:'Clair', themeSepia:'Confort lecture (Sépia)', themeDark:'Sombre',
+    bgStyleLbl:'Arrière-plan', bgSolid:'Uni doux', bgDots:'Points subtils', bgSoft:'Dégradé léger',
+    accentLbl:'Couleur principale', fontSizeLbl:'Taille du texte', sizeSmall:'Petit', sizeMed:'Moyen', sizeLarge:'Grand',
+    settings:'Examen et Sauvegarde', examDate:'Date de l\u2019examen',
+    weeklyGoalsEditLbl:'Objectif hebdomadaire par matière (heures)',
+    planEditorTitle:'Éditeur du planning hebdomadaire', planEditorSub:'Choisis un jour et modifie la matière ou le type d\u2019exercices',
+    resetPlanBtn:'Réinitialiser le planning', planResetDone:'Planning par défaut restauré',
+    exportBtn:'Exporter JSON', importBtn:'Importer JSON', resetBtn:'Tout effacer',
+    exported:'Sauvegarde exportée', imported:'Importation réussie', importFail:'Fichier invalide.',
+    importConfirm:'Remplacer les données actuelles ?',
+    resetConfirm:'Supprimer toutes les données ?', resetDone:'Données effacées',
+    newSubjectPrompt:'Nouvelle matière :', renamePrompt:'Nouveau nom :',
+    subjectExists:'Existe déjà', subjectLimit:'Max {n} matières', keepOne:'Garder au moins une matière',
+    removeSubjectConfirm:'Supprimer « {s} » ?', delDayConfirm:'Supprimer le {d} ?',
+    privacy:'100% natif et hors-ligne. Aucune bibliothèque externe.',
+    footer:'Suivi de révision • Fonctionne hors-ligne',
     subj_math:'Mathématiques', subj_pc:'Physique-Chimie', subj_svt:'SVT',
-    subj_philo:'Philosophie', subj_en:'Anglais'
+    subj_philo:'Philosophie', subj_en:'Anglais', subj_free:'Free Time / Repos',
+    task_cours_exo:'Cours + Exercices', task_serie:'Série d\u2019exercices (min 4 ex)',
+    task_nat:'Examen National', task_resume_exo:'Résumé + Exercices', task_free:'Temps libre'
   }
 };
 
-/* ================= الثوابت ================= */
-var STORAGE_KEY = 'study_tracker_v2';
-var DEFAULT_IDS = ['math','pc','svt','philo','en'];
-/* مواد قديمة: الفيزياء والكيمياء تُدمجان في مادة واحدة، والفرنسية والعربية تُحذفان */
-var LEGACY_IDS = {phys:'pc', chem:'pc', fr:null, ar:null};
-function mapId(id){ return Object.prototype.hasOwnProperty.call(LEGACY_IDS, id) ? LEGACY_IDS[id] : id; }
+/* ================= الثوابت والجدول المستخرج من الصورة ================= */
+var STORAGE_KEY = 'study_tracker_vanilla_v3';
+var DEFAULT_IDS = ['math','pc','svt','en','philo'];
+var DEFAULT_GOALS = {math:12, pc:10, svt:10, en:6, philo:4}; // من أسفل الصورة
 var MAX_SUBJECTS = 12;
 var MAX_MIN = 1440;
-var PALETTE = ['#2563eb','#16a34a','#f59e0b','#8b5cf6','#ec4899','#06b6d4','#ef4444','#84cc16','#0ea5e9','#d946ef','#f97316','#64748b'];
-var FONT = "'Cairo', system-ui, sans-serif";
-var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var PALETTE = ['#2563eb','#16a34a','#d97706','#8b5cf6','#ec4899','#0891b2','#dc2626','#65a30d'];
+var ACCENTS = ['#2563eb','#0d9488','#16a34a','#7c3aed','#d97706','#e11d48'];
 
-/* ================= الحالة / État ================= */
-var state;
-var selectedDate;
-var lastToday;
-var currentPeriod = 7;
-var distMode = 'week';
-var charts = {};
-var memStore = {};
-var storageWarned = false;
-var timers = {};
+/* الفترات الزمنية من الصورة (كل حصة = 120 دقيقة / ساعتين) */
+var TIME_SLOTS = [
+  {id:'s1', time:'08:00 - 10:00', mins:120},
+  {id:'s2', time:'10:30 - 12:30', mins:120},
+  {id:'s3', time:'15:00 - 17:00', mins:120},
+  {id:'s4', time:'17:30 - 19:30', mins:120},
+  {id:'s5', time:'20:00 - 22:00', mins:120}
+];
+
+/* أيام الأسبوع: 1=الاثنين ... 0=الأحد */
+var WEEK_DAYS = [
+  {idx:1, ar:'الاثنين (اليوم 1)', fr:'Lundi'},
+  {idx:2, ar:'الثلاثاء (اليوم 2)', fr:'Mardi'},
+  {idx:3, ar:'الأربعاء (اليوم 3)', fr:'Mercredi'},
+  {idx:4, ar:'الخميس (اليوم 4)', fr:'Jeudi'},
+  {idx:5, ar:'الجمعة (اليوم 5)', fr:'Vendredi'},
+  {idx:6, ar:'السبت (اليوم 6)', fr:'Samedi'},
+  {idx:0, ar:'الأحد (اليوم 7)', fr:'Dimanche'}
+];
+
+/* الجدول الأسبوعي المطابق للصورة بدقة */
+function defaultWeeklyPlan(){
+  return {
+    1: [ // Lundi
+      {subj:'pc', task:'task_cours_exo'},
+      {subj:'math', task:'task_cours_exo'},
+      {subj:'pc', task:'task_cours_exo'},
+      {subj:'math', task:'task_cours_exo'},
+      {subj:'en', task:'task_resume_exo'}
+    ],
+    2: [ // Mardi
+      {subj:'svt', task:'task_cours_exo'},
+      {subj:'pc', task:'task_cours_exo'},
+      {subj:'svt', task:'task_cours_exo'},
+      {subj:'pc', task:'task_cours_exo'},
+      {subj:'philo', task:'task_resume_exo'}
+    ],
+    3: [ // Mercredi
+      {subj:'math', task:'task_serie'},
+      {subj:'pc', task:'task_serie'},
+      {subj:'math', task:'task_serie'},
+      {subj:'svt', task:'task_serie'},
+      {subj:'free', task:'task_free'}
+    ],
+    4: [ // Jeudi
+      {subj:'math', task:'task_nat'},
+      {subj:'pc', task:'task_nat'},
+      {subj:'svt', task:'task_nat'},
+      {subj:'en', task:'task_nat'},
+      {subj:'free', task:'task_free'}
+    ],
+    5: [ // Vendredi
+      {subj:'free', task:'task_free'},
+      {subj:'free', task:'task_free'},
+      {subj:'svt', task:'task_serie'},
+      {subj:'math', task:'task_serie'},
+      {subj:'pc', task:'task_serie'}
+    ],
+    6: [ // Samedi
+      {subj:'en', task:'task_resume_exo'},
+      {subj:'philo', task:'task_resume_exo'},
+      {subj:'free', task:'task_free'},
+      {subj:'free', task:'task_free'},
+      {subj:'free', task:'task_free'}
+    ],
+    0: [ // Dimanche
+      {subj:'free', task:'task_free'},
+      {subj:'free', task:'task_free'},
+      {subj:'free', task:'task_free'},
+      {subj:'free', task:'task_free'},
+      {subj:'free', task:'task_free'}
+    ]
+  };
+}
+
+/* ================= الحالة العامة ================= */
+var state, selectedDate, lastToday, currentPeriod = 7, distMode = 'week';
+var timers = {}, chartHoverData = {};
 
 function $(id){ return document.getElementById(id); }
 function el(tag, cls, text){
@@ -390,40 +672,69 @@ function el(tag, cls, text){
   return e;
 }
 function t(k, vars){
-  var dict = I18N[state ? state.lang : 'fr'] || I18N.fr;
-  var s = dict[k];
-  if(s === undefined) s = I18N.fr[k];
-  if(s === undefined) s = k;
-  if(vars){ for(var x in vars){ s = s.split('{'+x+'}').join(vars[x]); } }
+  var dict = I18N[state ? state.lang : 'ar'] || I18N.ar;
+  var s = dict[k] !== undefined ? dict[k] : (I18N.ar[k] !== undefined ? I18N.ar[k] : k);
+  if(vars){ for(var x in vars) s = s.split('{'+x+'}').join(vars[x]); }
   return s;
 }
 
-/* ---------- التخزين (آمن) ---------- */
-function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return memStore[k] || null; } }
-function lsSet(k, v){ try{ localStorage.setItem(k, v); return true; }catch(e){ memStore[k] = v; return false; } }
+/* ================= التخزين والحالة ================= */
+function freshState(){
+  return {
+    v: 3,
+    lang: 'ar',
+    theme: 'sepia', // مريح للعين افتراضياً
+    bgStyle: 'solid',
+    accent: '#2563eb',
+    fontSize: '16',
+    subjects: DEFAULT_IDS.map(function(id){ return {id:id}; }),
+    goals: Object.assign({}, DEFAULT_GOALS),
+    weeklyPlan: defaultWeeklyPlan(),
+    days: {},
+    examDate: null
+  };
+}
+
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('study_tracker_v2');
+    if(!raw) return freshState();
+    var p = JSON.parse(raw);
+    var st = freshState();
+    if(p.lang === 'ar' || p.lang === 'fr') st.lang = p.lang;
+    if(['light','dark','sepia'].indexOf(p.theme) !== -1) st.theme = p.theme;
+    if(['solid','dots','soft'].indexOf(p.bgStyle) !== -1) st.bgStyle = p.bgStyle;
+    if(p.accent) st.accent = p.accent;
+    if(['15','16','18'].indexOf(String(p.fontSize)) !== -1) st.fontSize = String(p.fontSize);
+    if(Array.isArray(p.subjects) && p.subjects.length) st.subjects = p.subjects;
+    if(p.goals && typeof p.goals === 'object') st.goals = Object.assign(st.goals, p.goals);
+    if(p.weeklyPlan && typeof p.weeklyPlan === 'object') st.weeklyPlan = p.weeklyPlan;
+    if(p.days && typeof p.days === 'object') st.days = p.days;
+    if(p.examDate) st.examDate = p.examDate;
+    return st;
+  }catch(e){ return freshState(); }
+}
+
 function saveState(){
-  if(!lsSet(STORAGE_KEY, JSON.stringify(state)) && !storageWarned){
-    storageWarned = true; toast(t('storageFail'));
-  }
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
 }
 function debounce(name, fn, ms){ clearTimeout(timers[name]); timers[name] = setTimeout(fn, ms); }
 
-/* ---------- التواريخ ---------- */
+/* ================= التواريخ والأرقام ================= */
 function pad(n){ return String(n).padStart(2,'0'); }
 function toKey(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
 function parseKey(k){ var p = k.split('-').map(Number); return new Date(p[0], p[1]-1, p[2]); }
-function utcOf(k){ var p = k.split('-').map(Number); return Date.UTC(p[0], p[1]-1, p[2]); }
 function addDays(k, n){ var d = parseKey(k); d.setDate(d.getDate()+n); return toKey(d); }
 function todayKey(){ return toKey(new Date()); }
-function daysBetween(a, b){ return Math.round((utcOf(b)-utcOf(a))/864e5); }
-function isKey(k){ return typeof k === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(k) && toKey(parseKey(k)) === k; }
+function daysBetween(a, b){ return Math.round((parseKey(b)-parseKey(a))/864e5); }
+function isKey(k){ return typeof k === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(k); }
 function lastDates(n){ var out = [], tk = todayKey(); for(var i=n-1;i>=0;i--) out.push(addDays(tk,-i)); return out; }
 function periodDates(){
   if(currentPeriod > 0) return lastDates(currentPeriod);
   var keys = Object.keys(state.days).sort();
-  if(!keys.length) return [];
-  var n = daysBetween(keys[0], todayKey()) + 1;
-  return lastDates(Math.max(1, Math.min(n, 366)));
+  if(!keys.length) return lastDates(7);
+  var n = Math.min(Math.max(daysBetween(keys[0], todayKey()) + 1, 7), 180);
+  return lastDates(n);
 }
 function fmtShort(k){ var p = k.split('-'); return p[2]+'/'+p[1]; }
 function fmtLong(k){
@@ -432,8 +743,6 @@ function fmtLong(k){
       {weekday:'long', day:'numeric', month:'long'});
   }catch(e){ return k; }
 }
-
-/* ---------- الأرقام ---------- */
 function round2(n){ return Math.round(n*100)/100; }
 function fmtDur(min){
   min = Math.round(min || 0);
@@ -441,89 +750,49 @@ function fmtDur(min){
   var h = Math.floor(min/60), r = min % 60;
   return h + t('hU') + (r ? pad(r) : '');
 }
-
-/* ---------- الأيام ---------- */
 function dayMin(d){
   if(!d || !d.m) return 0;
   var s = 0; for(var id in d.m) s += d.m[id] || 0; return s;
 }
-function isEmptyDay(d){
-  return !d || (!Object.keys(d.m).length && !d.focus && !d.energy && !d.note);
-}
 function getDay(k){ return state.days[k] || null; }
-function ensureDay(k){
-  if(!state.days[k]) state.days[k] = {m:{}, focus:null, energy:null, note:''};
-  return state.days[k];
+function ensureDay(k){ if(!state.days[k]) state.days[k] = {m:{}, focus:null, energy:null, note:''}; return state.days[k]; }
+function pruneDay(k){
+  var d = state.days[k];
+  if(d && !Object.keys(d.m).length && !d.focus && !d.energy && !d.note) delete state.days[k];
 }
-function pruneDay(k){ if(state.days[k] && isEmptyDay(state.days[k])) delete state.days[k]; }
-
-/* ---------- المواد ---------- */
-function subjName(s){ return s.name || t('subj_'+s.id); }
-function newSubjectId(){ return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
-
-/* ================= الحالة الأولية والتحقق ================= */
-function detectLang(){
-  var l = (navigator.language || '').toLowerCase();
-  return l.indexOf('fr') === 0 ? 'fr' : 'ar';
-}
-function freshState(lang){
-  return {v:2, lang: lang || detectLang(), subjects: DEFAULT_IDS.map(function(id){ return {id:id}; }), days:{}, examDate:null};
-}
-function sanitize(p, lang){
-  var out = freshState(lang);
-  if(!p || typeof p !== 'object') return out;
-  if(!lang && (p.lang === 'fr' || p.lang === 'ar')) out.lang = p.lang;
-  if(Array.isArray(p.subjects)){
-    var seen = {}, subs = [];
-    p.subjects.forEach(function(s){
-      if(!s || typeof s.id !== 'string' || subs.length >= MAX_SUBJECTS) return;
-      var raw = s.id.replace(/[^\w-]/g,'').slice(0,40);
-      var id = mapId(raw);
-      if(!id || seen[id]) return;
-      if(id !== raw) s = {id:id};
-      seen[id] = true;
-      var o = {id:id};
-      if(typeof s.name === 'string' && s.name.trim()) o.name = s.name.trim().slice(0,40);
-      else if(DEFAULT_IDS.indexOf(id) === -1) o.name = id;
-      subs.push(o);
-    });
-    if(subs.length) out.subjects = subs;
+function subjName(s){
+  if(typeof s === 'string'){
+    if(s === 'free') return t('subj_free');
+    var found = state.subjects.find(function(x){ return x.id === s; });
+    return found ? (found.name || t('subj_'+found.id)) : t('subj_'+s);
   }
-  var ids = {}; out.subjects.forEach(function(s){ ids[s.id] = true; });
-  if(p.days && typeof p.days === 'object'){
-    Object.keys(p.days).forEach(function(k){
-      var d = p.days[k];
-      if(!isKey(k) || !d || typeof d !== 'object') return;
-      var day = {m:{}, focus:null, energy:null, note:''};
-      if(d.m && typeof d.m === 'object'){
-        Object.keys(d.m).forEach(function(rawId){
-          var id = mapId(rawId);
-          if(!id || !ids[id]) return;
-          var v = Math.round(Number(d.m[rawId]));
-          if(v > 0) day.m[id] = Math.min((day.m[id] || 0) + v, MAX_MIN);
-        });
-      }
-      var f = Math.round(Number(d.focus)); if(f >= 1 && f <= 5) day.focus = f;
-      var e = Math.round(Number(d.energy)); if(e >= 1 && e <= 5) day.energy = e;
-      if(typeof d.note === 'string') day.note = d.note.slice(0,500);
-      if(!isEmptyDay(day)) out.days[k] = day;
-    });
-  }
-  if(isKey(p.examDate)) out.examDate = p.examDate;
-  return out;
-}
-function loadState(){
-  var parsed = null;
-  try{ var raw = lsGet(STORAGE_KEY); if(raw) parsed = JSON.parse(raw); }catch(e){ parsed = null; }
-  return sanitize(parsed);
+  return s.name || t('subj_'+s.id);
 }
 
-/* ================= واجهة عامة ================= */
-function toast(msg){
-  var tt = $('toast');
-  tt.textContent = msg; tt.classList.add('show');
-  clearTimeout(tt._t); tt._t = setTimeout(function(){ tt.classList.remove('show'); }, 2600);
+/* ================= تطبيق المظهر واللغة ================= */
+function applyAppearance(){
+  document.documentElement.setAttribute('data-theme', state.theme);
+  document.body.setAttribute('data-bg-style', state.bgStyle);
+  document.documentElement.style.setProperty('--font-scale', state.fontSize + 'px');
+  if(state.accent){
+    document.documentElement.style.setProperty('--primary', state.accent);
+    document.documentElement.style.setProperty('--primary-soft', state.accent + '22');
+  }
+  // تحديث أزرار الإعدادات النشطة
+  document.querySelectorAll('#themeSelector .chip').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-val') === state.theme);
+  });
+  document.querySelectorAll('#bgStyleSelector .chip').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-val') === state.bgStyle);
+  });
+  document.querySelectorAll('#fontSizeSelector .chip').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-val') === state.fontSize);
+  });
+  document.querySelectorAll('#accentSwatches .swatch').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-color') === state.accent);
+  });
 }
+
 function applyLang(){
   var L = state.lang;
   document.documentElement.lang = L;
@@ -532,18 +801,473 @@ function applyLang(){
   document.querySelectorAll('[data-i18n]').forEach(function(n){ n.textContent = t(n.getAttribute('data-i18n')); });
   document.querySelectorAll('[data-i18n-ph]').forEach(function(n){ n.placeholder = t(n.getAttribute('data-i18n-ph')); });
   $('langBtn').textContent = L === 'ar' ? 'Français' : 'العربية';
-  $('langBtn').setAttribute('lang', L === 'ar' ? 'fr' : 'ar');
 }
 
-/* ================= العد التنازلي ================= */
-function renderCountdown(){
-  var days = $('countdownDays'), lbl = $('countdownLbl');
-  if(!state.examDate){ days.textContent = '—'; lbl.textContent = t('countdownUnset'); return; }
-  days.textContent = Math.max(0, daysBetween(todayKey(), state.examDate));
-  lbl.textContent = t('countdownLbl');
+function toast(msg){
+  var tt = $('toast');
+  tt.textContent = msg; tt.classList.add('show');
+  clearTimeout(tt._t); tt._t = setTimeout(function(){ tt.classList.remove('show'); }, 2600);
 }
 
-/* ================= نموذج الإدخال ================= */
+/* ================= نظام التوازن الأسبوعي ================= */
+function renderWeeklyBalance(){
+  var grid = $('weeklyGoalsGrid');
+  grid.textContent = '';
+  var wk = lastDates(7);
+  var totals = {};
+  state.subjects.forEach(function(s){ totals[s.id] = 0; });
+  wk.forEach(function(k){
+    var d = getDay(k);
+    if(d && d.m){
+      for(var id in d.m) if(totals[id] !== undefined) totals[id] += d.m[id];
+    }
+  });
+
+  var mostNeglected = null, lowestRatio = 2;
+  state.subjects.forEach(function(s){
+    var goalH = Number(state.goals[s.id]) || 6;
+    var curMin = totals[s.id] || 0;
+    var curH = round2(curMin / 60);
+    var pct = Math.min(100, Math.round((curH / goalH) * 100));
+    var ratio = curH / goalH;
+    if(ratio < lowestRatio && ratio < 0.85){
+      lowestRatio = ratio;
+      mostNeglected = {name: subjName(s), cur: fmtDur(curMin), goal: goalH + t('hU')};
+    }
+
+    var item = el('div','goal-item');
+    var top = el('div','goal-top');
+    top.appendChild(el('span','', subjName(s)));
+    top.appendChild(el('span','', curH + ' / ' + goalH + t('hU')));
+    item.appendChild(top);
+
+    var bar = el('div','progress-bar');
+    var fill = el('div','progress-fill' + (pct >= 100 ? ' done' : ''));
+    fill.style.width = pct + '%';
+    bar.appendChild(fill);
+    item.appendChild(bar);
+    grid.appendChild(item);
+  });
+
+  var alertBox = $('balanceAlert');
+  alertBox.hidden = false;
+  if(mostNeglected){
+    alertBox.textContent = '⚠️ ' + t('neglectAlert', mostNeglected);
+  } else {
+    alertBox.textContent = '✅ ' + t('allBalanced');
+  }
+}
+
+/* ================= عرض وتعديل الجدول الأسبوعي ================= */
+function renderWeeklySchedule(){
+  var wrap = $('weeklyScheduleWrap');
+  wrap.textContent = '';
+  var table = el('table','sched-table');
+  var thead = el('thead'), trH = el('tr');
+  trH.appendChild(el('th','', state.lang === 'ar' ? 'التوقيت' : 'Horaire'));
+  var todayIdx = new Date().getDay();
+
+  WEEK_DAYS.forEach(function(d){
+    var th = el('th', d.idx === todayIdx ? 'today-col' : '', state.lang === 'ar' ? d.ar : d.fr);
+    trH.appendChild(th);
+  });
+  thead.appendChild(trH);
+  table.appendChild(thead);
+
+  var tbody = el('tbody');
+  TIME_SLOTS.forEach(function(slot, sIdx){
+    var tr = el('tr');
+    tr.appendChild(el('td','slot-time', slot.time));
+    WEEK_DAYS.forEach(function(d){
+      var td = el('td');
+      var cellData = (state.weeklyPlan[d.idx] && state.weeklyPlan[d.idx][sIdx]) || {subj:'free', task:'task_free'};
+      if(cellData.subj === 'free'){
+        td.appendChild(el('span','cell-free', subjName('free')));
+      } else {
+        td.appendChild(el('span','cell-subj', subjName(cellData.subj)));
+        var badgeCls = 'cell-task' + (cellData.task === 'task_nat' ? ' cell-nat' : (cellData.task === 'task_serie' ? ' cell-exo' : ''));
+        td.appendChild(el('span', badgeCls, t(cellData.task)));
+      }
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  wrap.appendChild(table);
+}
+
+function renderPlanEditor(){
+  var sel = $('editDaySelect');
+  if(!sel.options.length){
+    WEEK_DAYS.forEach(function(d){
+      var opt = el('option','', state.lang === 'ar' ? d.ar : d.fr);
+      opt.value = d.idx;
+      sel.appendChild(opt);
+    });
+  }
+  var dayIdx = Number(sel.value || 1);
+  var container = $('planEditorContainer');
+  container.textContent = '';
+
+  var tasksList = ['task_serie','task_nat','task_cours_exo','task_resume_exo','task_free'];
+  TIME_SLOTS.forEach(function(slot, sIdx){
+    var row = el('div','plan-editor-row');
+    row.appendChild(el('strong','', slot.time));
+
+    var cur = (state.weeklyPlan[dayIdx] && state.weeklyPlan[dayIdx][sIdx]) || {subj:'free', task:'task_free'};
+
+    var subjSel = el('select');
+    var optFree = el('option','', subjName('free')); optFree.value = 'free';
+    subjSel.appendChild(optFree);
+    state.subjects.forEach(function(s){
+      var o = el('option','', subjName(s)); o.value = s.id;
+      subjSel.appendChild(o);
+    });
+    subjSel.value = cur.subj;
+
+    var taskSel = el('select');
+    tasksList.forEach(function(tk){
+      var o = el('option','', t(tk)); o.value = tk;
+      taskSel.appendChild(o);
+    });
+    taskSel.value = cur.task;
+
+    function updateSlot(){
+      if(!state.weeklyPlan[dayIdx]) state.weeklyPlan[dayIdx] = [];
+      state.weeklyPlan[dayIdx][sIdx] = {subj: subjSel.value, task: subjSel.value === 'free' ? 'task_free' : taskSel.value};
+      saveState();
+      renderWeeklySchedule();
+    }
+    subjSel.addEventListener('change', updateSlot);
+    taskSel.addEventListener('change', updateSlot);
+
+    row.appendChild(subjSel);
+    row.appendChild(taskSel);
+    container.appendChild(row);
+  });
+}
+
+function autoFillFromPlan(){
+  var dayOfWeek = parseKey(selectedDate).getDay();
+  var slots = state.weeklyPlan[dayOfWeek] || [];
+  var added = false;
+  var d = ensureDay(selectedDate);
+  slots.forEach(function(sl, idx){
+    if(sl.subj && sl.subj !== 'free'){
+      var mins = TIME_SLOTS[idx] ? TIME_SLOTS[idx].mins : 120;
+      d.m[sl.subj] = (d.m[sl.subj] || 0) + mins;
+      added = true;
+    }
+  });
+  if(!added){ toast(t('noPlanToday')); return; }
+  saveState();
+  renderForm();
+  renderDashboard();
+  toast(t('autoFilled'));
+}
+
+/* ================= محرك الرسوم البيانية الخام (Vanilla Canvas) ================= */
+function getThemeColors(){
+  var cs = getComputedStyle(document.documentElement);
+  function g(n){ return cs.getPropertyValue(n).trim(); }
+  return {
+    text: g('--text'), muted: g('--muted'), grid: g('--grid'),
+    primary: g('--primary'), good: g('--good'), warn: g('--warn'), card: g('--card')
+  };
+}
+
+function setupCanvas(canvas){
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.parentElement.getBoundingClientRect();
+  var w = Math.max(280, rect.width || 400);
+  var h = Math.max(200, rect.height || 240);
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  var ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, w, h);
+  return {ctx: ctx, w: w, h: h};
+}
+
+function drawGridAndAxes(ctx, w, h, padL, padR, padT, padB, maxY, steps, yLabels){
+  var c = getThemeColors();
+  var plotW = w - padL - padR, plotH = h - padT - padB;
+  ctx.strokeStyle = c.grid;
+  ctx.fillStyle = c.muted;
+  ctx.font = '11px system-ui, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+
+  for(var i = 0; i <= steps; i++){
+    var y = padT + plotH - (i / steps) * plotH;
+    ctx.beginPath();
+    ctx.moveTo(padL, y);
+    ctx.lineTo(w - padR, y);
+    ctx.stroke();
+    var lbl = yLabels ? yLabels[i] : round2((maxY / steps) * i);
+    ctx.fillText(String(lbl), padL - 6, y);
+  }
+  return {plotW: plotW, plotH: plotH};
+}
+
+function renderLineCanvas(canvasId, emptyId, labels, values, color){
+  var canvas = $(canvasId), box = canvas.parentElement, empty = $(emptyId);
+  var hasData = values.some(function(v){ return v > 0; });
+  if(!hasData){ empty.textContent = t('emptyChart'); empty.hidden = false; box.hidden = true; return; }
+  empty.hidden = true; box.hidden = false;
+
+  var s = setupCanvas(canvas), ctx = s.ctx, w = s.w, h = s.h;
+  var padL = 36, padR = 14, padT = 16, padB = 26;
+  var maxVal = Math.max(4, Math.ceil(Math.max.apply(null, values)));
+  var g = drawGridAndAxes(ctx, w, h, padL, padR, padT, padB, maxVal, 4);
+  var c = getThemeColors();
+  var pts = [];
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = c.muted;
+  var stepX = labels.length > 1 ? g.plotW / (labels.length - 1) : g.plotW / 2;
+
+  values.forEach(function(v, i){
+    var x = labels.length > 1 ? padL + i * stepX : padL + g.plotW / 2;
+    var y = padT + g.plotH - (v / maxVal) * g.plotH;
+    pts.push({x: x, y: y, label: labels[i], val: v + t('hU')});
+    if(labels.length <= 10 || i % Math.ceil(labels.length / 7) === 0){
+      ctx.fillText(labels[i], x, h - 10);
+    }
+  });
+
+  // منطقة التظليل تحت الخط
+  ctx.beginPath();
+  pts.forEach(function(p, i){ if(i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); });
+  ctx.lineTo(pts[pts.length-1].x, padT + g.plotH);
+  ctx.lineTo(pts[0].x, padT + g.plotH);
+  ctx.closePath();
+  ctx.fillStyle = color + '25';
+  ctx.fill();
+
+  // الخط الرئيسي
+  ctx.beginPath();
+  pts.forEach(function(p, i){ if(i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); });
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // النقاط
+  pts.forEach(function(p){
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+  });
+
+  chartHoverData[canvasId] = pts;
+}
+
+function renderStackedBarCanvas(canvasId, emptyId, legendId, labels, datasets){
+  var canvas = $(canvasId), box = canvas.parentElement, empty = $(emptyId), leg = $(legendId);
+  var hasData = datasets.some(function(ds){ return ds.data.some(function(v){ return v > 0; }); });
+  leg.textContent = '';
+  if(!hasData){ empty.textContent = t('emptyChart'); empty.hidden = false; box.hidden = true; return; }
+  empty.hidden = true; box.hidden = false;
+
+  var s = setupCanvas(canvas), ctx = s.ctx, w = s.w, h = s.h;
+  var padL = 36, padR = 14, padT = 16, padB = 26;
+  var colTotals = labels.map(function(_, idx){
+    return datasets.reduce(function(sum, ds){ return sum + (ds.data[idx] || 0); }, 0);
+  });
+  var maxVal = Math.max(4, Math.ceil(Math.max.apply(null, colTotals)));
+  var g = drawGridAndAxes(ctx, w, h, padL, padR, padT, padB, maxVal, 4);
+  var c = getThemeColors();
+  var barSlot = g.plotW / labels.length;
+  var barW = Math.min(34, barSlot * 0.62);
+  var pts = [];
+
+  labels.forEach(function(lbl, i){
+    var x = padL + i * barSlot + (barSlot - barW) / 2;
+    var curY = padT + g.plotH;
+    var tipLines = [lbl];
+    datasets.forEach(function(ds){
+      var v = ds.data[i] || 0;
+      if(v > 0){
+        var barH = (v / maxVal) * g.plotH;
+        curY -= barH;
+        ctx.fillStyle = ds.color;
+        ctx.fillRect(x, curY, barW, barH);
+        tipLines.push(ds.label + ': ' + v + t('hU'));
+      }
+    });
+    pts.push({x: x + barW/2, y: curY, label: tipLines.join('\n'), val: ''});
+    ctx.fillStyle = c.muted;
+    ctx.textAlign = 'center';
+    ctx.fillText(lbl, x + barW/2, h - 10);
+  });
+
+  datasets.forEach(function(ds){
+    var item = el('span','legend-item');
+    var dot = el('span','legend-dot'); dot.style.background = ds.color;
+    item.appendChild(dot); item.appendChild(el('span','', ds.label));
+    leg.appendChild(item);
+  });
+  chartHoverData[canvasId] = pts;
+}
+
+function renderDualLineCanvas(canvasId, emptyId, legendId, labels, focusArr, energyArr){
+  var canvas = $(canvasId), box = canvas.parentElement, empty = $(emptyId), leg = $(legendId);
+  var hasData = focusArr.some(Boolean) || energyArr.some(Boolean);
+  leg.textContent = '';
+  if(!hasData){ empty.textContent = t('emptyChart'); empty.hidden = false; box.hidden = true; return; }
+  empty.hidden = true; box.hidden = false;
+
+  var s = setupCanvas(canvas), ctx = s.ctx, w = s.w, h = s.h;
+  var padL = 32, padR = 14, padT = 16, padB = 26;
+  var g = drawGridAndAxes(ctx, w, h, padL, padR, padT, padB, 5, 5, [0,1,2,3,4,5]);
+  var c = getThemeColors();
+  var stepX = labels.length > 1 ? g.plotW / (labels.length - 1) : g.plotW / 2;
+  var pts = [];
+
+  function drawSeries(arr, color){
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.5;
+    var started = false;
+    arr.forEach(function(v, i){
+      var x = labels.length > 1 ? padL + i * stepX : padL + g.plotW / 2;
+      if(v){
+        var y = padT + g.plotH - (v / 5) * g.plotH;
+        if(!started){ ctx.moveTo(x, y); started = true; } else ctx.lineTo(x, y);
+      }
+    });
+    ctx.stroke();
+    arr.forEach(function(v, i){
+      if(v){
+        var x = labels.length > 1 ? padL + i * stepX : padL + g.plotW / 2;
+        var y = padT + g.plotH - (v / 5) * g.plotH;
+        ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI*2); ctx.fillStyle = color; ctx.fill();
+      }
+    });
+  }
+
+  drawSeries(focusArr, c.good);
+  drawSeries(energyArr, c.warn);
+
+  labels.forEach(function(lbl, i){
+    var x = labels.length > 1 ? padL + i * stepX : padL + g.plotW / 2;
+    if(labels.length <= 10 || i % Math.ceil(labels.length / 7) === 0){
+      ctx.fillStyle = c.muted; ctx.textAlign = 'center'; ctx.fillText(lbl, x, h - 10);
+    }
+    if(focusArr[i] || energyArr[i]){
+      pts.push({
+        x: x, y: padT + g.plotH/2,
+        label: lbl + '\n' + t('focus') + ': ' + (focusArr[i]||'-') + '/5\n' + t('energy') + ': ' + (energyArr[i]||'-') + '/5',
+        val: ''
+      });
+    }
+  });
+
+  [{lbl:t('focus'), col:c.good},{lbl:t('energy'), col:c.warn}].forEach(function(it){
+    var item = el('span','legend-item');
+    var dot = el('span','legend-dot'); dot.style.background = it.col;
+    item.appendChild(dot); item.appendChild(el('span','', it.lbl));
+    leg.appendChild(item);
+  });
+  chartHoverData[canvasId] = pts;
+}
+
+function renderScatterCanvas(canvasId, emptyId, points){
+  var canvas = $(canvasId), box = canvas.parentElement, empty = $(emptyId);
+  if(points.length < 2){ empty.textContent = t('emptyScatter'); empty.hidden = false; box.hidden = true; return; }
+  empty.hidden = true; box.hidden = false;
+
+  var s = setupCanvas(canvas), ctx = s.ctx, w = s.w, h = s.h;
+  var padL = 36, padR = 16, padT = 16, padB = 26;
+  var maxX = Math.max(4, Math.ceil(Math.max.apply(null, points.map(function(p){ return p.x; }))));
+  var g = drawGridAndAxes(ctx, w, h, padL, padR, padT, padB, 5, 5, [0,1,2,3,4,5]);
+  var c = getThemeColors();
+  var pts = [];
+
+  for(var xTick = 0; xTick <= maxX; xTick += Math.max(1, Math.floor(maxX/4))){
+    var xx = padL + (xTick / maxX) * g.plotW;
+    ctx.fillStyle = c.muted; ctx.textAlign = 'center';
+    ctx.fillText(xTick + t('hU'), xx, h - 10);
+  }
+
+  points.forEach(function(p){
+    var cx = padL + (p.x / maxX) * g.plotW;
+    var cy = padT + g.plotH - (p.y / 5) * g.plotH;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 5.5, 0, Math.PI * 2);
+    ctx.fillStyle = c.primary;
+    ctx.fill();
+    pts.push({x: cx, y: cy, label: p.x + t('hU') + ' • ' + t('focus') + ': ' + p.y + '/5', val: ''});
+  });
+  chartHoverData[canvasId] = pts;
+}
+
+function renderCharts(){
+  var c = getThemeColors();
+  var dates = periodDates();
+  var labels = dates.map(fmtShort);
+
+  renderLineCanvas('lineChart', 'emptyLine', labels, dates.map(function(k){ return round2(dayMin(getDay(k))/60); }), c.primary);
+
+  var groups, barLabels;
+  if(distMode === 'week'){
+    var w = lastDates(7); groups = w.map(function(k){ return [k]; }); barLabels = w.map(fmtShort);
+  } else {
+    var m = lastDates(28);
+    groups = [0,1,2,3].map(function(i){ return m.slice(i*7, i*7+7); });
+    barLabels = groups.map(function(g){ return fmtShort(g[0]); });
+  }
+  var datasets = state.subjects.map(function(s, i){
+    return {
+      label: subjName(s),
+      color: PALETTE[i % PALETTE.length],
+      data: groups.map(function(g){
+        return round2(g.reduce(function(a,k){ var d = getDay(k); return a + (d && d.m[s.id] || 0); }, 0)/60);
+      })
+    };
+  });
+  renderStackedBarCanvas('barChart', 'emptyBar', 'barLegend', barLabels, datasets);
+
+  renderDualLineCanvas('dualChart', 'emptyDual', 'dualLegend', labels,
+    dates.map(function(k){ var d = getDay(k); return d && d.focus || null; }),
+    dates.map(function(k){ var d = getDay(k); return d && d.energy || null; })
+  );
+
+  var scPts = [];
+  dates.forEach(function(k){ var d = getDay(k); if(d && d.focus) scPts.push({x: round2(dayMin(d)/60), y: d.focus}); });
+  renderScatterCanvas('scatterChart', 'emptyScatter', scPts);
+}
+
+/* تفاعل التمرير على الرسوم البيانية */
+function bindChartTooltips(){
+  var tip = $('chartTip');
+  ['lineChart','barChart','dualChart','scatterChart'].forEach(function(id){
+    var canvas = $(id);
+    canvas.addEventListener('mousemove', function(e){
+      var pts = chartHoverData[id] || [];
+      if(!pts.length){ tip.hidden = true; return; }
+      var rect = canvas.getBoundingClientRect();
+      var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+      var closest = null, minDist = 28;
+      pts.forEach(function(p){
+        var dist = Math.hypot(p.x - mx, p.y - my);
+        if(dist < minDist){ minDist = dist; closest = p; }
+      });
+      if(closest){
+        tip.textContent = closest.val ? (closest.label + ': ' + closest.val) : closest.label;
+        tip.style.left = (e.clientX + 12) + 'px';
+        tip.style.top = (e.clientY - 28) + 'px';
+        tip.hidden = false;
+      } else {
+        tip.hidden = true;
+      }
+    });
+    canvas.addEventListener('mouseleave', function(){ tip.hidden = true; });
+  });
+}
+
+/* ================= النموذج والسجل والملخص ================= */
 function renderForm(){
   var tk = todayKey();
   $('dateInput').value = selectedDate;
@@ -556,126 +1280,69 @@ function renderForm(){
   var box = $('subjectInputs');
   box.textContent = '';
   var day = getDay(selectedDate);
-  state.subjects.forEach(function(s){ box.appendChild(buildSubjectRow(s, day)); });
-  updateDayTotal();
-  renderScales();
-  $('noteInput').value = day ? day.note : '';
-}
+  state.subjects.forEach(function(s){
+    var row = el('div', 'subject-row');
+    var name = subjName(s);
+    row.appendChild(el('span', 'name', name));
 
-function buildSubjectRow(s, day){
-  var row = el('div', 'subject-row');
-  var name = subjName(s);
-  row.appendChild(el('span', 'name', name));
-
-  var inp = el('input');
-  inp.type = 'number'; inp.min = 0; inp.max = MAX_MIN; inp.step = 5;
-  inp.setAttribute('inputmode', 'numeric');
-  inp.placeholder = '0';
-  inp.value = day && day.m[s.id] ? day.m[s.id] : '';
-  inp.setAttribute('aria-label', name + ' (' + t('minUnit') + ')');
-  inp.addEventListener('input', function(){
-    var v = parseInt(inp.value, 10);
-    if(isNaN(v) || v < 0) v = 0;
-    if(v > MAX_MIN){ v = MAX_MIN; inp.value = v; }
-    setMinutes(s.id, v);
-  });
-  row.appendChild(inp);
-  row.appendChild(el('span', 'unit', t('minUnit')));
-
-  [30, 60].forEach(function(inc){
-    var b = el('button', 'quick', '+' + inc);
-    b.type = 'button';
-    b.setAttribute('aria-label', name + ' +' + inc + ' ' + t('minUnit'));
-    b.addEventListener('click', function(){
-      var d = getDay(selectedDate);
-      var cur = d && d.m[s.id] ? d.m[s.id] : 0;
-      var v = Math.min(MAX_MIN, cur + inc);
-      inp.value = v; setMinutes(s.id, v);
+    var inp = el('input');
+    inp.type = 'number'; inp.min = 0; inp.max = MAX_MIN; inp.step = 5;
+    inp.placeholder = '0';
+    inp.value = day && day.m[s.id] ? day.m[s.id] : '';
+    inp.addEventListener('input', function(){
+      var v = Math.min(MAX_MIN, Math.max(0, parseInt(inp.value, 10) || 0));
+      setMinutes(s.id, v);
     });
-    row.appendChild(b);
+    row.appendChild(inp);
+    row.appendChild(el('span', 'unit', t('minUnit')));
+
+    [30, 60, 120].forEach(function(inc){
+      var b = el('button', 'quick', '+' + (inc === 120 ? '2' + t('hU') : inc));
+      b.type = 'button';
+      b.addEventListener('click', function(){
+        var d = getDay(selectedDate);
+        var v = Math.min(MAX_MIN, (d && d.m[s.id] ? d.m[s.id] : 0) + inc);
+        inp.value = v; setMinutes(s.id, v);
+      });
+      row.appendChild(b);
+    });
+    box.appendChild(row);
   });
 
-  var ren = el('button', 'icon-btn', '\u270E');
-  ren.type = 'button'; ren.title = t('rename'); ren.setAttribute('aria-label', t('rename') + ': ' + name);
-  ren.addEventListener('click', function(){ renameSubject(s); });
-  row.appendChild(ren);
-
-  var rm = el('button', 'icon-btn danger', '\u2715');
-  rm.type = 'button'; rm.title = t('removeSubject'); rm.setAttribute('aria-label', t('removeSubject') + ': ' + name);
-  rm.addEventListener('click', function(){ removeSubject(s); });
-  row.appendChild(rm);
-  return row;
+  $('dayTotal').textContent = fmtDur(dayMin(getDay(selectedDate)));
+  buildScale('focusScale','focus');
+  buildScale('energyScale','energy');
+  $('noteInput').value = day ? day.note : '';
 }
 
 function setMinutes(id, v){
   var d = ensureDay(selectedDate);
   if(v > 0) d.m[id] = v; else delete d.m[id];
-  commit();
-  updateDayTotal();
-}
-function commit(){
-  pruneDay(selectedDate);
-  saveState();
+  pruneDay(selectedDate); saveState();
+  $('dayTotal').textContent = fmtDur(dayMin(getDay(selectedDate)));
   debounce('dash', renderDashboard, 200);
 }
-function updateDayTotal(){ $('dayTotal').textContent = fmtDur(dayMin(getDay(selectedDate))); }
 
 function buildScale(wrapId, field){
-  var wrap = $(wrapId);
-  wrap.textContent = '';
-  var d = getDay(selectedDate);
-  var cur = d ? d[field] : null;
-  wrap.setAttribute('aria-label', t(field === 'focus' ? 'focusLbl' : 'energyLbl'));
+  var wrap = $(wrapId); wrap.textContent = '';
+  var d = getDay(selectedDate), cur = d ? d[field] : null;
   for(var i=1;i<=5;i++){
     (function(n){
       var b = el('button', n === cur ? 'active' : '', String(n));
       b.type = 'button';
-      b.setAttribute('aria-pressed', n === cur ? 'true' : 'false');
       b.addEventListener('click', function(){
         var day = ensureDay(selectedDate);
         day[field] = day[field] === n ? null : n;
-        commit();
+        pruneDay(selectedDate); saveState();
         buildScale(wrapId, field);
       });
       wrap.appendChild(b);
     })(i);
   }
 }
-function renderScales(){ buildScale('focusScale','focus'); buildScale('energyScale','energy'); }
 
-function renameSubject(s){
-  var v = prompt(t('renamePrompt'), subjName(s));
-  if(v === null) return;
-  v = v.trim().slice(0,40);
-  if(!v){
-    if(DEFAULT_IDS.indexOf(s.id) !== -1) delete s.name; else return;
-  } else { s.name = v; }
-  saveState(); renderForm(); renderDashboard();
-}
-function removeSubject(s){
-  if(state.subjects.length <= 1){ toast(t('keepOne')); return; }
-  if(!confirm(t('removeSubjectConfirm', {s: subjName(s)}))) return;
-  state.subjects = state.subjects.filter(function(x){ return x.id !== s.id; });
-  Object.keys(state.days).forEach(function(k){ delete state.days[k].m[s.id]; pruneDay(k); });
-  saveState(); renderForm(); renderDashboard();
-}
-function addSubject(){
-  if(state.subjects.length >= MAX_SUBJECTS){ toast(t('subjectLimit', {n: MAX_SUBJECTS})); return; }
-  var v = prompt(t('newSubjectPrompt'));
-  if(v === null) return;
-  v = v.trim().slice(0,40);
-  if(!v) return;
-  var exists = state.subjects.some(function(s){ return subjName(s).toLowerCase() === v.toLowerCase(); });
-  if(exists){ toast(t('subjectExists')); return; }
-  state.subjects.push({id:newSubjectId(), name:v});
-  saveState(); renderForm(); renderDashboard();
-}
-
-/* ================= الملخص ================= */
 function renderSummary(){
-  var tk = todayKey();
-  $('statToday').textContent = fmtDur(dayMin(getDay(tk)));
-
+  $('statToday').textContent = fmtDur(dayMin(getDay(todayKey())));
   var wk = lastDates(7);
   var weekMin = wk.reduce(function(a,k){ return a + dayMin(getDay(k)); }, 0);
   $('statWeek').textContent = fmtDur(weekMin);
@@ -695,104 +1362,9 @@ function renderSummary(){
   else { tr.className = 'trend-same'; tr.textContent = t('trendSame'); }
 }
 
-/* ================= الرسوم البيانية ================= */
-function colors(){
-  var cs = getComputedStyle(document.documentElement);
-  function g(n){ return cs.getPropertyValue(n).trim(); }
-  return {text:g('--text'), grid:g('--grid'), primary:g('--primary'), good:g('--good'), warn:g('--warn')};
-}
-function destroyChart(n){ if(charts[n]){ charts[n].destroy(); delete charts[n]; } }
-function mount(name, canvasId, emptyId, hasData, emptyKey, config){
-  destroyChart(name);
-  var canvas = $(canvasId), box = canvas.parentElement, empty = $(emptyId);
-  if(typeof Chart === 'undefined'){ empty.textContent = t('chartsOff'); empty.hidden = false; box.hidden = true; return; }
-  if(!hasData){ empty.textContent = t(emptyKey); empty.hidden = false; box.hidden = true; return; }
-  empty.hidden = true; box.hidden = false;
-  config.options = config.options || {};
-  config.options.responsive = true;
-  config.options.maintainAspectRatio = false;
-  if(REDUCED) config.options.animation = false;
-  charts[name] = new Chart(canvas, config);
-}
-
-function renderCharts(){
-  var c = colors();
-  if(typeof Chart !== 'undefined'){
-    Chart.defaults.color = c.text;
-    Chart.defaults.borderColor = c.grid;
-    Chart.defaults.font.family = FONT;
-  }
-  var dates = periodDates();
-  var labels = dates.map(fmtShort);
-  var hasAny = dates.some(function(k){ return getDay(k); });
-
-  // 1) خط: ساعات المراجعة يومياً
-  mount('line','lineChart','emptyLine', hasAny, 'emptyChart', {
-    type:'line',
-    data:{labels:labels, datasets:[{
-      label:t('hoursAxis'),
-      data:dates.map(function(k){ return round2(dayMin(getDay(k))/60); }),
-      borderColor:c.primary, backgroundColor:c.primary+'22', fill:true, tension:.3,
-      pointRadius: dates.length > 40 ? 0 : 3
-    }]},
-    options:{plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}}}
-  });
-
-  // 2) أعمدة مكدّسة حسب المادة
-  var groups, barLabels;
-  if(distMode === 'week'){
-    var w = lastDates(7); groups = w.map(function(k){ return [k]; }); barLabels = w.map(fmtShort);
-  } else {
-    var m = lastDates(28);
-    groups = [0,1,2,3].map(function(i){ return m.slice(i*7, i*7+7); });
-    barLabels = groups.map(function(g){ return fmtShort(g[0]); });
-  }
-  var datasets = state.subjects.map(function(s, i){
-    return {
-      label:subjName(s), stack:'s', borderRadius:3,
-      backgroundColor:PALETTE[i % PALETTE.length],
-      data:groups.map(function(g){
-        return round2(g.reduce(function(a,k){ var d = getDay(k); return a + (d && d.m[s.id] || 0); }, 0)/60);
-      })
-    };
-  });
-  var barHas = datasets.some(function(ds){ return ds.data.some(function(v){ return v > 0; }); });
-  mount('bar','barChart','emptyBar', barHas, 'emptyChart', {
-    type:'bar', data:{labels:barLabels, datasets:datasets},
-    options:{scales:{x:{stacked:true, grid:{display:false}}, y:{stacked:true, beginAtZero:true}},
-             plugins:{legend:{position:'bottom'}}}
-  });
-
-  // 3) التركيز والطاقة
-  var dualHas = dates.some(function(k){ var d = getDay(k); return d && (d.focus || d.energy); });
-  mount('dual','dualChart','emptyDual', dualHas, 'emptyChart', {
-    type:'line',
-    data:{labels:labels, datasets:[
-      {label:t('focus'), data:dates.map(function(k){ var d = getDay(k); return d && d.focus || null; }),
-       borderColor:c.good, backgroundColor:'transparent', tension:.3, spanGaps:true},
-      {label:t('energy'), data:dates.map(function(k){ var d = getDay(k); return d && d.energy || null; }),
-       borderColor:c.warn, backgroundColor:'transparent', tension:.3, spanGaps:true}
-    ]},
-    options:{scales:{y:{min:0, max:5, ticks:{stepSize:1}}}, plugins:{legend:{position:'bottom'}}}
-  });
-
-  // 4) مبعثر: ساعات المراجعة مقابل التركيز
-  var pts = [];
-  dates.forEach(function(k){ var d = getDay(k); if(d && d.focus) pts.push({x:round2(dayMin(d)/60), y:d.focus}); });
-  mount('scatter','scatterChart','emptyScatter', pts.length >= 2, 'emptyScatter', {
-    type:'scatter',
-    data:{datasets:[{label:t('focus'), data:pts, backgroundColor:c.primary, pointRadius:5}]},
-    options:{plugins:{legend:{display:false}},
-      scales:{x:{title:{display:true, text:t('hoursAxis')}, beginAtZero:true},
-              y:{title:{display:true, text:t('focus')}, min:0, max:5, ticks:{stepSize:1}}}}
-  });
-}
-
-/* ================= السجل ================= */
 function renderHistory(){
-  var list = $('historyList');
-  list.textContent = '';
-  var keys = Object.keys(state.days).sort().reverse().slice(0,30);
+  var list = $('historyList'); list.textContent = '';
+  var keys = Object.keys(state.days).sort().reverse().slice(0,20);
   if(!keys.length){ list.appendChild(el('div','empty', t('noHistory'))); return; }
   keys.forEach(function(k){
     var d = state.days[k];
@@ -811,7 +1383,7 @@ function renderHistory(){
     var eb = el('button','ghost-btn', t('edit')); eb.type = 'button';
     eb.addEventListener('click', function(){
       selectedDate = k; renderForm();
-      $('formSection').scrollIntoView({behavior: REDUCED ? 'auto' : 'smooth', block:'start'});
+      $('formSection').scrollIntoView({behavior:'smooth'});
     });
     var db = el('button','ghost-btn danger', t('del')); db.type = 'button';
     db.addEventListener('click', function(){
@@ -826,43 +1398,122 @@ function renderHistory(){
   });
 }
 
+function renderSettingsControls(){
+  var swWrap = $('accentSwatches'); swWrap.textContent = '';
+  ACCENTS.forEach(function(col){
+    var b = el('button','swatch' + (state.accent === col ? ' active' : ''));
+    b.type = 'button'; b.style.background = col; b.setAttribute('data-color', col);
+    b.addEventListener('click', function(){
+      state.accent = col; saveState(); applyAppearance(); renderCharts();
+    });
+    swWrap.appendChild(b);
+  });
+
+  var gEdit = $('goalsEditor'); gEdit.textContent = '';
+  state.subjects.forEach(function(s){
+    var row = el('div','subject-row');
+    row.appendChild(el('span','name', subjName(s)));
+    var inp = el('input'); inp.type = 'number'; inp.min = 1; inp.max = 60;
+    inp.value = state.goals[s.id] || 6;
+    inp.addEventListener('change', function(){
+      state.goals[s.id] = Math.max(1, Number(inp.value) || 6);
+      saveState(); renderWeeklyBalance();
+    });
+    row.appendChild(inp);
+    row.appendChild(el('span','unit', t('hU')));
+    gEdit.appendChild(row);
+  });
+}
+
 function renderDashboard(){
-  renderCountdown();
+  // العد التنازلي
+  if(!state.examDate){ $('countdownDays').textContent = '—'; $('countdownLbl').textContent = t('countdownUnset'); }
+  else { $('countdownDays').textContent = Math.max(0, daysBetween(todayKey(), state.examDate)); $('countdownLbl').textContent = t('countdownLbl'); }
+
   renderSummary();
-  renderCharts();
+  renderWeeklyBalance();
+  renderWeeklySchedule();
   renderHistory();
+  renderCharts();
   $('examDateInput').value = state.examDate || '';
 }
 
-/* ================= الأحداث ================= */
+/* ================= ربط الأحداث ================= */
 function bindEvents(){
-  $('langBtn').addEventListener('click', function(){
-    state.lang = state.lang === 'ar' ? 'fr' : 'ar';
-    saveState(); applyLang(); renderForm(); renderDashboard();
+  // التنقل بين التبويبات
+  document.querySelectorAll('.nav-tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.nav-tab').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var target = btn.getAttribute('data-tab');
+      document.querySelectorAll('.tab-panel').forEach(function(p){ p.hidden = p.id !== target; });
+      if(target === 'tab-stats') setTimeout(renderCharts, 30);
+    });
   });
 
+  $('goEditPlanBtn').addEventListener('click', function(){
+    document.querySelector('[data-tab="tab-settings"]').click();
+    $('planEditorContainer').scrollIntoView({behavior:'smooth'});
+  });
+
+  $('quickThemeBtn').addEventListener('click', function(){
+    var order = ['light','sepia','dark'];
+    state.theme = order[(order.indexOf(state.theme) + 1) % order.length];
+    saveState(); applyAppearance(); renderCharts();
+  });
+
+  $('langBtn').addEventListener('click', function(){
+    state.lang = state.lang === 'ar' ? 'fr' : 'ar';
+    $('editDaySelect').innerHTML = '';
+    saveState(); applyLang(); renderForm(); renderPlanEditor(); renderDashboard();
+  });
+
+  $('autoFillPlanBtn').addEventListener('click', autoFillFromPlan);
+
   $('dateInput').addEventListener('change', function(e){
-    var v = e.target.value;
-    if(isKey(v) && v <= todayKey()){ selectedDate = v; }
+    if(isKey(e.target.value) && e.target.value <= todayKey()) selectedDate = e.target.value;
     renderForm();
   });
   $('todayBtn').addEventListener('click', function(){ selectedDate = todayKey(); renderForm(); });
 
-  $('noteInput').addEventListener('input', function(e){
-    var v = e.target.value.slice(0,500).trim() ? e.target.value.slice(0,500) : '';
-    var key = selectedDate;
-    debounce('note', function(){
-      var d = ensureDay(key); d.note = v; pruneDay(key); saveState(); renderHistory();
-    }, 400);
-  });
   $('saveBtn').addEventListener('click', function(){
-    clearTimeout(timers.note);
-    var v = $('noteInput').value.trim().slice(0,500);
-    var d = ensureDay(selectedDate); d.note = v;
+    var d = ensureDay(selectedDate);
+    d.note = $('noteInput').value.trim().slice(0,500);
     pruneDay(selectedDate); saveState(); renderDashboard();
     toast(t('saved'));
   });
-  $('addSubjectBtn').addEventListener('click', addSubject);
+
+  $('addSubjectBtn').addEventListener('click', function(){
+    if(state.subjects.length >= MAX_SUBJECTS){ toast(t('subjectLimit', {n: MAX_SUBJECTS})); return; }
+    var v = prompt(t('newSubjectPrompt'));
+    if(!v || !v.trim()) return;
+    v = v.trim().slice(0,40);
+    var id = 'c' + Date.now().toString(36);
+    state.subjects.push({id: id, name: v});
+    state.goals[id] = 6;
+    saveState(); renderForm(); renderSettingsControls(); renderPlanEditor(); renderDashboard();
+  });
+
+  // إعدادات المظهر
+  $('themeSelector').addEventListener('click', function(e){
+    var b = e.target.closest('.chip'); if(!b) return;
+    state.theme = b.getAttribute('data-val'); saveState(); applyAppearance(); renderCharts();
+  });
+  $('bgStyleSelector').addEventListener('click', function(e){
+    var b = e.target.closest('.chip'); if(!b) return;
+    state.bgStyle = b.getAttribute('data-val'); saveState(); applyAppearance();
+  });
+  $('fontSizeSelector').addEventListener('click', function(e){
+    var b = e.target.closest('.chip'); if(!b) return;
+    state.fontSize = b.getAttribute('data-val'); saveState(); applyAppearance();
+  });
+
+  $('editDaySelect').addEventListener('change', renderPlanEditor);
+  $('resetPlanBtn').addEventListener('click', function(){
+    state.weeklyPlan = defaultWeeklyPlan();
+    saveState(); renderPlanEditor(); renderWeeklySchedule();
+    toast(t('planResetDone'));
+  });
 
   $('periodFilter').addEventListener('click', function(e){
     var b = e.target.closest('.chip'); if(!b) return;
@@ -881,74 +1532,54 @@ function bindEvents(){
 
   $('examDateInput').addEventListener('change', function(e){
     state.examDate = isKey(e.target.value) ? e.target.value : null;
-    saveState(); renderCountdown();
+    saveState(); renderDashboard();
   });
 
   $('exportBtn').addEventListener('click', function(){
     var blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'suivi-revision-' + todayKey() + '.json';
+    a.download = 'suivi-bac-' + todayKey() + '.json';
     document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
     toast(t('exported'));
   });
   $('importBtn').addEventListener('click', function(){ $('importFile').click(); });
   $('importFile').addEventListener('change', function(e){
     var file = e.target.files[0]; e.target.value = '';
     if(!file) return;
-    if(file.size > 2*1024*1024){ toast(t('importFail')); return; }
     var reader = new FileReader();
     reader.onload = function(){
       try{
-        var parsed = JSON.parse(reader.result);
-        if(!parsed || typeof parsed !== 'object' || !parsed.days || typeof parsed.days !== 'object') throw new Error('bad');
-        if(!confirm(t('importConfirm'))) return;
-        state = sanitize(parsed, state.lang);
-        saveState(); selectedDate = todayKey();
-        applyLang(); renderForm(); renderDashboard();
+        var p = JSON.parse(reader.result);
+        if(!p || !p.days || !confirm(t('importConfirm'))) return;
+        state = Object.assign(freshState(), p);
+        saveState(); applyAppearance(); applyLang(); renderSettingsControls(); renderPlanEditor(); renderForm(); renderDashboard();
         toast(t('imported'));
       }catch(err){ toast(t('importFail')); }
     };
-    reader.onerror = function(){ toast(t('importFail')); };
     reader.readAsText(file);
   });
   $('resetBtn').addEventListener('click', function(){
     if(!confirm(t('resetConfirm'))) return;
-    state = freshState(state.lang);
-    saveState(); selectedDate = todayKey();
-    applyLang(); renderForm(); renderDashboard();
+    state = freshState(); saveState();
+    applyAppearance(); applyLang(); renderSettingsControls(); renderPlanEditor(); renderForm(); renderDashboard();
     toast(t('resetDone'));
   });
 
-  // عند تجاوز منتصف الليل أو العودة للتبويب
-  document.addEventListener('visibilitychange', function(){
-    if(document.hidden) return;
-    var tk = todayKey();
-    if(tk !== lastToday){
-      if(selectedDate === lastToday) selectedDate = tk;
-      lastToday = tk; renderForm(); renderDashboard();
-    }
-  });
-  // تغيير الوضع الداكن
-  if(window.matchMedia){
-    var mq = window.matchMedia('(prefers-color-scheme: dark)');
-    var onScheme = function(){ renderCharts(); };
-    if(mq.addEventListener) mq.addEventListener('change', onScheme);
-    else if(mq.addListener) mq.addListener(onScheme);
-  }
+  window.addEventListener('resize', function(){ debounce('resize', renderCharts, 200); });
+  bindChartTooltips();
 }
 
 /* ================= التشغيل ================= */
-function init(){
-  state = loadState();
-  selectedDate = lastToday = todayKey();
-  bindEvents();
-  applyLang();
-  renderForm();
-  renderDashboard();
-}
-init();
+state = loadState();
+selectedDate = lastToday = todayKey();
+bindEvents();
+applyAppearance();
+applyLang();
+renderSettingsControls();
+renderPlanEditor();
+renderForm();
+renderDashboard();
 
 })();
 </script>
